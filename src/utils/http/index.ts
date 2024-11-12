@@ -14,7 +14,7 @@ const configDefault = {
   headers: {
     "Content-Type": ContentTypeEnum.FORM_URLENCODED
   },
-  timeout: 0,
+  timeout: 3000,
   baseURL: import.meta.env.VITE_BASE_API,
   data: {}
 };
