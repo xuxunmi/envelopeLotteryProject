@@ -9,6 +9,8 @@ import { useCachedViewStoreHook } from "@/store/modules/cachedView";
 import { start, done } from "@/utils/progress";
 import setPageTitle from "@/utils/set-page-title";
 
+console.log("import.meta.env: ", import.meta.env)
+
 const router = createRouter({
   history:
     import.meta.env.VITE_ROUTER_HISTORY === "hash"

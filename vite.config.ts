@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
-import { defineConfig, loadEnv, type ConfigEnv } from "vite";
+import { defineConfig, loadEnv, type ConfigEnv, type UserConfigExport, } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 // Vant按需引入
@@ -22,13 +22,13 @@ import vueSetupExtend from "vite-plugin-vue-setup-extend";
 const root: string = process.cwd();
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }: ConfigEnv) => {
-  console.log("command: ", command);
-  console.log("mode: ", mode);
-  // 环境变量
-  const env = loadEnv(mode, root, "");
+export default (configEnv: ConfigEnv): UserConfigExport => {
+  const viteEnv = loadEnv(configEnv.mode, process.cwd()) as ImportMetaEnv
+  console.log("viteEnv: ", viteEnv)
+  const { VITE_PUBLIC_PATH,VITE_ENABLE_ERUDA,VITE_CDN_DEPS } = viteEnv
   return {
-    base: env.VITE_PUBLIC_PATH || "/",
+    /** 打包时根据实际情况修改 base */
+    base: VITE_PUBLIC_PATH,
     plugins: [
       vue(),
       vueJsx(),
@@ -69,12 +69,12 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       createHtmlPlugin({
         inject: {
           data: {
-            ENABLE_ERUDA: env.VITE_ENABLE_ERUDA || "false"
+            ENABLE_ERUDA: VITE_ENABLE_ERUDA || "false"
           }
         }
       }),
       // 生产环境默认不启用 CDN 加速
-      enableCDN(env.VITE_CDN_DEPS)
+      enableCDN(VITE_CDN_DEPS)
     ],
     resolve: {
       alias: {
@@ -99,13 +99,18 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       // 设为 true ,若端口已被占用则会直接退出，而不是尝试下一个可用端口
       strictPort: false,
       // 是否自动打开浏览器
-      open: false,
-      // 是否开启 https
-      https: false,
+      open: true,
+      // 是否开启 https, Vite 5.x 中的 https 配置要求提供object,建议移除或替换为 {} 来禁用 https
+      https: {
+        // key: fs.readFileSync(path.resolve(__dirname, 'path-to-your-private-key.pem')),
+        // cert: fs.readFileSync(path.resolve(__dirname, 'path-to-your-certificate.pem')),
+        // ca: fs.readFileSync(path.resolve(__dirname, 'path-to-your-ca.pem')) // 可选， 如果使用 CA 证书
+      },
       // 自定义代理规则
       proxy: {
         "/api": {
           target: "http://jsonplaceholder.typicode.com",
+          ws: true,
           // 跨域
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, "")
@@ -116,7 +121,7 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       // 指定输出路径，默认'dist'
       outDir: "dist",
       // 指定生成静态资源的存放路径(相对于build.outDir)
-      assetsDir: "assets",
+      assetsDir: "static",
       // 小于此阈值的导入或引用资源将内联为base64编码，设置为0可禁用此项。默认4096（4kb）
       assetsInlineLimit: 4096,
       // 规定触发警告的 chunk 大小。（以 kbs 为单位）
@@ -131,13 +136,14 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       minify: "terser",
       terserOptions: {
         compress: {
-          drop_console: true,
-          drop_debugger: true
-        },
-        format: {
+          drop_console: false,
+          drop_debugger: true,
+          pure_funcs: ["console.log"]
+      },
+      format: {
           /** 删除注释 */
           comments: false
-        }
+      }
       },
       rollupOptions: {
         // 不同类型文件分包
@@ -158,5 +164,5 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
         }
       }
     }
-  };
-});
+  }
+}
