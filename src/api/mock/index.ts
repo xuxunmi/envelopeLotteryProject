@@ -6,6 +6,9 @@ type ListResult = {
   list: Array<any>;
 };
 
+/**
+ * @description: 接口描述
+ */
 export function getListApi(params?: object): Promise<ListResult> {
   return http.request({
     url: "/list/get",

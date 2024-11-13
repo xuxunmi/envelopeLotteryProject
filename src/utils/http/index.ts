@@ -4,18 +4,28 @@ import Axios, {
   type AxiosResponse,
   type AxiosRequestConfig
 } from "axios";
+import qs from "qs";
 import { ContentTypeEnum, ResultEnum } from "@/enums/requestEnum";
-import NProgress from "../progress";
+import { statusCodeErrorMessage } from "./httpErrorCodeFun";
+import { getToken } from "../cache/localStorage";
 import { showFailToast } from "vant";
 import "vant/es/toast/style";
 
+const env = import.meta.env; // 环境变量
+// 接口白名单
+const whiteApiList = ["/servlet/rest/KbomRest/exportBomCompareInfo"];
+
+// 错误提示白名单
+const whiteErrorApiList = [];
+
 // 默认 axios 实例请求配置
 const configDefault = {
+  baseURL: env.VITE_BASE_API,
+  withCredentials: true, // 跨域请求时是否需要使用凭证
   headers: {
-    "Content-Type": ContentTypeEnum.FORM_URLENCODED
+    "Content-Type": ContentTypeEnum.JSON
   },
-  timeout: 3000,
-  baseURL: import.meta.env.VITE_BASE_API,
+  timeout: 5000,
   data: {}
 };
 
@@ -29,11 +39,17 @@ class Http {
   private httpInterceptorsRequest(): void {
     Http.axiosInstance.interceptors.request.use(
       config => {
-        NProgress.start();
-        // 发送请求前，可在此携带 token
-        // if (token) {
-        //   config.headers['token'] = token
-        // }
+        const token = getToken(); // 获取 token
+        if (token) {
+          config.headers["Authorization"] = token;
+        }
+        //只针对get方式数组参数进行序列化
+        if (config.method === "get") {
+          // 适用于 1.x版本以上
+          config.paramsSerializer = {
+            serialize: params => qs.stringify(params, { arrayFormat: "repeat" })
+          };
+        }
         return config;
       },
       (error: AxiosError) => {
@@ -47,67 +63,33 @@ class Http {
   private httpInterceptorsResponse(): void {
     Http.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => {
-        NProgress.done();
-        // 与后端协定的返回字段
-        const { code, result } = response.data;
-        // const { message } = response.data;
-        // 判断请求是否成功
-        const isSuccess =
-          result &&
-          Reflect.has(response.data, "code") &&
-          code === ResultEnum.SUCCESS;
-        if (isSuccess) {
-          return result;
+        const res = response.data;
+        console.log("response", response);
+        let flag = false;
+        whiteApiList.forEach(ele => {
+          if (response.config.url?.indexOf(ele) != -1) flag = true;
+        });
+        if (flag) return res;
+        if (res.resultCode != ResultEnum.SUCCESS) {
+          let errFlag = false;
+          whiteErrorApiList.forEach(ele => {
+            if (response.config.url?.indexOf(ele) != -1) errFlag = true;
+          });
+          if (!errFlag) {
+            showFailToast(res.message);
+          }
+          return Promise.reject(res);
         } else {
-          // 处理请求错误
-          // showFailToast(message);
-          return Promise.reject(response.data);
+          return res;
         }
       },
       (error: AxiosError) => {
-        NProgress.done();
-        // 处理 HTTP 网络错误
+        // 处理响应错误
         let message = "";
-        // HTTP 状态码
-        const status = error.response?.status;
-        switch (status) {
-          case 400:
-            message = "请求错误";
-            break;
-          case 401:
-            message = "未授权，请登录";
-            break;
-          case 403:
-            message = "拒绝访问";
-            break;
-          case 404:
-            message = `请求地址出错: ${error.response?.config?.url}`;
-            break;
-          case 408:
-            message = "请求超时";
-            break;
-          case 500:
-            message = "服务器内部错误";
-            break;
-          case 501:
-            message = "服务未实现";
-            break;
-          case 502:
-            message = "网关错误";
-            break;
-          case 503:
-            message = "服务不可用";
-            break;
-          case 504:
-            message = "网关超时";
-            break;
-          case 505:
-            message = "HTTP版本不受支持";
-            break;
-          default:
-            message = "网络连接故障";
+        if (error && error.response) {
+          const { status } = error.response;
+          message = statusCodeErrorMessage(status, error);
         }
-
         showFailToast(message);
         return Promise.reject(error);
       }
