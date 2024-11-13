@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
-import { defineConfig, loadEnv, type ConfigEnv, type UserConfigExport, } from "vite";
+import { loadEnv, type ConfigEnv, type UserConfigExport } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 // Vant按需引入
@@ -23,9 +23,9 @@ const root: string = process.cwd();
 
 // https://vitejs.dev/config/
 export default (configEnv: ConfigEnv): UserConfigExport => {
-  const viteEnv = loadEnv(configEnv.mode, process.cwd()) as ImportMetaEnv
-  console.log("viteEnv: ", viteEnv)
-  const { VITE_PUBLIC_PATH,VITE_ENABLE_ERUDA,VITE_CDN_DEPS } = viteEnv
+  const viteEnv = loadEnv(configEnv.mode, process.cwd()) as ImportMetaEnv;
+  console.log("viteEnv: ", viteEnv);
+  const { VITE_PUBLIC_PATH, VITE_ENABLE_ERUDA, VITE_CDN_DEPS } = viteEnv;
   return {
     /** 打包时根据实际情况修改 base */
     base: VITE_PUBLIC_PATH,
@@ -139,11 +139,11 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
           drop_console: false,
           drop_debugger: true,
           pure_funcs: ["console.log"]
-      },
-      format: {
+        },
+        format: {
           /** 删除注释 */
           comments: false
-      }
+        }
       },
       rollupOptions: {
         // 不同类型文件分包
@@ -164,5 +164,5 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
         }
       }
     }
-  }
-}
+  };
+};

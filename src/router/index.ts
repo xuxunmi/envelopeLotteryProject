@@ -6,10 +6,10 @@ import {
 } from "vue-router";
 import routes from "./routes";
 import { useCachedViewStoreHook } from "@/store/modules/cachedView";
-import { start, done } from "@/utils/progress";
+// import { start, done } from "@/utils/progress";
 import setPageTitle from "@/utils/set-page-title";
 
-console.log("import.meta.env: ", import.meta.env)
+console.log("import.meta.env: ", import.meta.env);
 
 const router = createRouter({
   history:
