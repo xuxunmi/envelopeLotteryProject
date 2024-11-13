@@ -14,7 +14,7 @@ console.log("import.meta.env: ", import.meta.env);
 const router = createRouter({
   history:
     import.meta.env.VITE_ROUTER_HISTORY === "hash"
-      ? createWebHashHistory(import.meta.env.BASE_URL)
+      ? createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH)
       : createWebHistory(import.meta.env.VITE_PUBLIC_PATH), // hash模型
   // 滚动行为
   scrollBehavior: (to, from, savePosition) => {
