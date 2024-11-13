@@ -101,11 +101,11 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
       // 是否自动打开浏览器
       open: true,
       // 是否开启 https, Vite 5.x 中的 https 配置要求提供object,建议移除或替换为 {} 来禁用 https
-      https: {
-        // key: fs.readFileSync(path.resolve(__dirname, 'path-to-your-private-key.pem')),
-        // cert: fs.readFileSync(path.resolve(__dirname, 'path-to-your-certificate.pem')),
-        // ca: fs.readFileSync(path.resolve(__dirname, 'path-to-your-ca.pem')) // 可选， 如果使用 CA 证书
-      },
+      // https: {
+      //   // key: fs.readFileSync(path.resolve(__dirname, 'path-to-your-private-key.pem')),
+      //   // cert: fs.readFileSync(path.resolve(__dirname, 'path-to-your-certificate.pem')),
+      //   // ca: fs.readFileSync(path.resolve(__dirname, 'path-to-your-ca.pem')) // 可选， 如果使用 CA 证书
+      // },
       // 自定义代理规则
       proxy: {
         "/api": {
