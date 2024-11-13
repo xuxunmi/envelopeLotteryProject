@@ -10,7 +10,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/loading/index.vue"),
     name: "loading",
     meta: {
-      title: "页面加载中"
+      title: "页面加载中",
+      noCache: true
     }
   },
   {
@@ -18,7 +19,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/smokeRedEnvelope/index.vue"),
     name: "highestSmokeRedEnvelope",
     meta: {
-      title: "最高抽888元红包"
+      title: "最高抽888元红包",
+      noCache: true
     }
   },
   {
@@ -26,7 +28,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/watchdramaSmokeRedEnvelope/index.vue"),
     name: "watchdramaSmokeRedEnvelope",
     meta: {
-      title: "继续看剧抽红包"
+      title: "继续看剧抽红包",
+      noCache: true
     }
   },
   {
@@ -34,7 +37,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/watchShortDramas/index.vue"),
     name: "watchShortDramas",
     meta: {
-      title: "看短剧领红包"
+      title: "看短剧领红包",
+      noCache: true
     }
   },
   {
@@ -42,7 +46,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/shortDramasDrawredenvelopes/index.vue"),
     name: "shortDramasDrawredenvelopes",
     meta: {
-      title: "短剧抽红包"
+      title: "短剧抽红包",
+      noCache: true
     }
   }
 ];
