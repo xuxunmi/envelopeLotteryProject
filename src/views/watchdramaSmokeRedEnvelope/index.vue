@@ -100,110 +100,6 @@
         </div>
       </div>
     </van-dialog>
-
-    <!--
-		1、订单可以通过post方式或get方式提交，建议使用post方式；
-		   提交支付请求可以使用http或https方式，建议使用https方式。
-		2、通联收银宝网关地址、商户号及key值，在接入测试时由通联提供；
-		   通联收银宝网关地址、商户号，在接入生产时由通联提供，key值在通联收银宝商服服务平台上设置,https://vsp.allinpay.com。
-	-->
-    <!--================= post 方式提交支付请求 start =====================-->
-    <!--================= 测试地址,生产地址请参考在线接口文档https://aipboss.allinpay.com/know/devhelp/main.php?pid=20=====================-->
-    <!--=================  =====================-->
-    <form id="paymentForm" :action="paymentServerUrl" method="post">
-      <input id="cusid" type="hidden" name="cusid" :value="paymentForm.cusid" />
-      <input id="appid" type="hidden" name="appid" :value="paymentForm.appid" />
-      <input
-        id="version"
-        type="hidden"
-        name="version"
-        :value="paymentForm.version"
-      />
-      <input
-        id="randomstr"
-        type="hidden"
-        name="randomstr"
-        :value="paymentForm.randomstr"
-      />
-      <input
-        id="trxamt"
-        type="hidden"
-        name="trxamt"
-        :value="paymentForm.trxamt"
-      />
-      <input id="reqsn" type="hidden" name="reqsn" :value="paymentForm.reqsn" />
-      <input
-        id="charset"
-        type="hidden"
-        name="charset"
-        :value="paymentForm.charset"
-      />
-      <input
-        id="returl"
-        type="hidden"
-        name="returl"
-        :value="paymentForm.returl"
-      />
-      <input
-        id="notify_url"
-        type="hidden"
-        name="notify_url"
-        :value="paymentForm.notify_url"
-      />
-      <input id="body" type="hidden" name="body" :value="paymentForm.body" />
-      <input
-        id="remark"
-        type="hidden"
-        name="remark"
-        :value="paymentForm.remark"
-      />
-      <input
-        id="randomstr"
-        type="hidden"
-        name="randomstr"
-        :value="paymentForm.randomstr"
-      />
-      <input
-        id="validtime"
-        type="hidden"
-        name="validtime"
-        :value="paymentForm.validtime"
-      />
-      <input
-        id="limit_pay"
-        type="hidden"
-        name="limit_pay"
-        :value="paymentForm.limit_pay"
-      />
-      <input
-        id="asinfo"
-        type="hidden"
-        name="asinfo"
-        :value="paymentForm.asinfo"
-      />
-      <input
-        id="ishide"
-        type="hidden"
-        name="ishide"
-        :value="paymentForm.ishide"
-      />
-      <input
-        id="signtype"
-        type="hidden"
-        name="signtype"
-        :value="paymentForm.signtype"
-      />
-      <input id="sign" type="hidden" name="sign" :value="paymentForm.sign" />
-
-      <div class="weui-btn-area">
-        <input
-          class="weui-btn weui-btn_default"
-          type="submit"
-          value="跳转至收银宝H5收银台 >>"
-        />
-      </div>
-      <!--================= post 方式提交支付请求 end =====================-->
-    </form>
   </div>
 </template>
 
@@ -361,7 +257,7 @@ const handleCustomerService = () => {
     }
     .original-price {
       position: relative;
-      margin-top: 24px;
+      margin-top: 45px;
       text-align: center;
       color: #e03733;
       font-size: 76px;
@@ -374,8 +270,8 @@ const handleCustomerService = () => {
         background: url("@/assets/images/24012515281(5).webp") no-repeat;
         background-size: 100% 100%;
         position: absolute;
-        top: -7px;
-        right: 40px;
+        top: -10px;
+        right: 45px;
         width: 75px;
         height: 60px;
         padding: 12px 10px 16px;
@@ -394,8 +290,8 @@ const handleCustomerService = () => {
     }
     .payment-chunk {
       width: 367px;
-      height: 230px;
-      margin: 135px auto auto;
+      height: 220px;
+      margin: 140px auto auto;
       background: url("@/assets/images/24012515281(9).webp") no-repeat;
       background-size: 100% 100%;
       overflow: hidden;
@@ -438,7 +334,7 @@ const handleCustomerService = () => {
       }
     }
     .copyright-chunk {
-      margin: 40px auto 130px;
+      margin: 40px auto 100px;
       color: #fff;
       font-size: 9px;
       text-align: center;
