@@ -280,6 +280,7 @@ watch(
     }
     .record3 {
       width: 180px;
+      line-height: 2;
       margin: 40px auto 0;
       font-size: 12px;
       background-color: rgba(0, 0, 0, 0.4);
