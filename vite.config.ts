@@ -12,7 +12,7 @@ import svgLoader from "vite-svg-loader";
 import path from "path";
 import mockDevServerPlugin from "vite-plugin-mock-dev-server";
 //Gzip文件压缩
-import viteCompression from "vite-plugin-compression";
+// import viteCompression from "vite-plugin-compression";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { enableCDN } from "./build/cdn";
 // 为打包后的文件提供传统浏览器兼容性支持
@@ -57,14 +57,14 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
         symbolId: "icon-[dir]-[name]"
       }),
       //开启Gzip压缩
-      viteCompression({
-        verbose: true, // 是否在控制台中输出压缩结果
-        disable: false,
-        threshold: 10240, // 如果体积大于阈值，将被压缩，单位为b，体积过小时请不要压缩，以免适得其反
-        algorithm: "gzip", // 压缩算法，可选['gzip'，' brotliccompress '，'deflate '，'deflateRaw']
-        ext: ".gz",
-        deleteOriginFile: true // 源文件压缩后是否删除(我为了看压缩后的效果，先选择了true)
-      }),
+      // viteCompression({
+      //   verbose: true, // 是否在控制台中输出压缩结果
+      //   disable: false,
+      //   threshold: 10240, // 如果体积大于阈值，将被压缩，单位为b，体积过小时请不要压缩，以免适得其反
+      //   algorithm: "gzip", // 压缩算法，可选['gzip'，' brotliccompress '，'deflate '，'deflateRaw']
+      //   ext: ".gz",
+      //   deleteOriginFile: true // 源文件压缩后是否删除(我为了看压缩后的效果，先选择了true)
+      // }),
       // 注入模板数据
       createHtmlPlugin({
         inject: {
