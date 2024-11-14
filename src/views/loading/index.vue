@@ -5,11 +5,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { login } from "@/api/playlet";
 
 defineOptions({
   name: "Loading"
 });
+
+const route = useRoute();
+const router = useRouter();
+
+// console.log("route: ", route);
+
+const channelKey = route.query.channel_key;
+// console.log("channelKey: ", channelKey);
+
+const userLogin = async () => {
+  try {
+    const params = {
+      channel_key: channelKey
+    };
+    const { data } = (await login(params)) as any;
+    console.log("data: ", data);
+    router.push({
+      path: `/smokeRedEnvelope`,
+      query: {
+        uuid: data.uuid,
+        channel_key: data.channel_key
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+userLogin();
 </script>
 
 <style lang="less" scoped>

@@ -16,11 +16,6 @@
           alt=""
         />
       </div>
-      <div class="record-description-wrapper">
-        <div class="record1">秦皇岛邵颖科技工作室</div>
-        <div class="record2">客服电话: 17276719347</div>
-        <div class="record3">浙ICP备17042064号-11</div>
-      </div>
     </div>
     <div class="right-fixed1-chunk" @click="handleRuleOpen">
       <img class="rule" src="@/assets/images/rule.webp" alt="" />
@@ -31,6 +26,11 @@
         src="@/assets/images/customer-service.webp"
         alt=""
       />
+    </div>
+    <div class="record-description-wrapper">
+      <div class="record1">沈阳达信网络科技有限公司</div>
+      <div class="record2" />
+      <div class="record3">辽ICP备2023010590号</div>
     </div>
     <!-- 弹窗 -->
     <div
@@ -77,7 +77,7 @@
           六、本次幸运大转盘活动为概率性事件，秉持公正公开的原则，禁止任何作弊行为，本次活动的最终解释权归本公司所有。
         </p>
       </div>
-      <div class="rule-record-wrapper">浙ICP备17042064号-11</div>
+      <div class="rule-record-wrapper">辽ICP备2023010590号</div>
     </div>
   </div>
 </template>
@@ -85,6 +85,7 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { login } from "@/api/playlet";
 
 defineOptions({
   name: "SmokeRedEnvelope"
@@ -93,6 +94,31 @@ defineOptions({
 //#endregion
 const router = useRouter();
 const route = useRoute();
+const channelKey = route.query.channel_key;
+const payParams = reactive({
+  channel_key: "",
+  channel_number: "",
+  uuid: ""
+});
+
+console.log("route: ", route.query, channelKey, payParams);
+
+const userLogin = async () => {
+  try {
+    const params = {
+      channel_key: channelKey
+    };
+    const { data } = (await login(params)) as any;
+    console.log("data: ", data);
+    Object.assign(payParams, data);
+    handleTimerGo();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+userLogin();
+
 const timer = ref();
 const dialogVisible = ref(false);
 
@@ -124,7 +150,10 @@ const handleOpenRedEnvelope = () => {
     setTimeout(() => {
       router.push({
         path: `/watchdramaSmokeRedEnvelope`,
-        query: {}
+        query: {
+          uuid: payParams.uuid,
+          channel_key: payParams.channel_key
+        }
       });
     }, 500);
   }
@@ -147,21 +176,22 @@ const handleTimerGo = () => {
       setTimeout(() => {
         router.push({
           path: `/watchdramaSmokeRedEnvelope`,
-          query: {}
+          query: {
+            uuid: payParams.uuid,
+            channel_key: payParams.channel_key
+          }
         });
       }, 500);
     }
   }, 3000);
 };
 
-handleTimerGo();
-
 watch(
   () => route.path,
   to => {
     if (to === "/smokeRedEnvelope") {
       clearTimeout(timer.value);
-      handleTimerGo();
+      // handleTimerGo();
     }
   },
   {
@@ -174,7 +204,8 @@ watch(
 .app-container {
   background: url("@/assets/images/bg-image2.webp") no-repeat;
   background-size: cover;
-  height: auto;
+  height: 100vh;
+  overflow: hidden;
 
   .app-container__bg {
     .red-envelope {
@@ -217,29 +248,6 @@ watch(
       margin-left: -35px;
       width: 70px;
     }
-    .record-description-wrapper {
-      position: absolute;
-      left: 0;
-      bottom: 11%;
-      width: 100%;
-      height: 100px;
-      text-align: center;
-      font-size: 15px;
-      color: #fff;
-      .record1 {
-        letter-spacing: 1px;
-      }
-      .record2 {
-        letter-spacing: 2px;
-      }
-      .record3 {
-        width: 180px;
-        margin: 40px auto 0;
-        font-size: 12px;
-        background-color: rgba(0, 0, 0, 0.4);
-        border-radius: 4px;
-      }
-    }
   }
   .right-fixed1-chunk,
   .right-fixed2-chunk {
@@ -254,6 +262,29 @@ watch(
   }
   .right-fixed2-chunk {
     top: 105px;
+  }
+  .record-description-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 3%;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+    .record1 {
+      letter-spacing: 1px;
+    }
+    .record2 {
+      letter-spacing: 2px;
+    }
+    .record3 {
+      width: 180px;
+      margin: 40px auto 0;
+      font-size: 12px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+    }
   }
 
   .rule-description-wrapper {

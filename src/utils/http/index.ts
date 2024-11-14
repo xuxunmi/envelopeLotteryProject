@@ -8,10 +8,10 @@ import qs from "qs";
 import { ContentTypeEnum, ResultEnum } from "@/enums/requestEnum";
 import { statusCodeErrorMessage } from "./httpErrorCodeFun";
 import { getToken } from "../cache/localStorage";
-import { showFailToast } from "vant";
+import { showToast } from "vant";
 import "vant/es/toast/style";
 
-const env = import.meta.env; // 环境变量
+// const env = import.meta.env; // 环境变量
 // 接口白名单
 const whiteApiList = ["/servlet/rest/KbomRest/exportBomCompareInfo"];
 
@@ -20,7 +20,8 @@ const whiteErrorApiList = [];
 
 // 默认 axios 实例请求配置
 const configDefault = {
-  baseURL: env.VITE_BASE_API,
+  // baseURL: env.VITE_BASE_API,
+  baseURL: "/",
   withCredentials: true, // 跨域请求时是否需要使用凭证
   headers: {
     "Content-Type": ContentTypeEnum.JSON
@@ -53,7 +54,7 @@ class Http {
         return config;
       },
       (error: AxiosError) => {
-        showFailToast(error.message);
+        showToast(error.message);
         return Promise.reject(error);
       }
     );
@@ -70,13 +71,13 @@ class Http {
           if (response.config.url?.indexOf(ele) != -1) flag = true;
         });
         if (flag) return res;
-        if (res.resultCode != ResultEnum.SUCCESS) {
+        if (res.code != ResultEnum.SUCCESS) {
           let errFlag = false;
           whiteErrorApiList.forEach(ele => {
             if (response.config.url?.indexOf(ele) != -1) errFlag = true;
           });
           if (!errFlag) {
-            showFailToast(res.message);
+            showToast(res.msg);
           }
           return Promise.reject(res);
         } else {
@@ -90,7 +91,7 @@ class Http {
           const { status } = error.response;
           message = statusCodeErrorMessage(status, error);
         }
-        showFailToast(message);
+        showToast(message);
         return Promise.reject(error);
       }
     );

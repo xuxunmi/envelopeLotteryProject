@@ -558,9 +558,9 @@ onBeforeUnmount(() => {
         }
       }
       .adm-modal-footer {
-        width: 316px;
+        width: 90%;
         line-height: 50px;
-        margin-top: 20px;
+        margin: 20px auto 0;
         background-color: #1677ff;
         font-size: 18px;
         color: #fff;

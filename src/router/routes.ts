@@ -1,16 +1,16 @@
 import type { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    redirect: { path: "/smokeRedEnvelope" }
-  },
+  // {
+  //   path: "/",
+  //   redirect: { path: "/loading" }
+  // },
   {
     path: "/loading",
     component: () => import("@/views/loading/index.vue"),
     name: "loading",
     meta: {
-      title: "页面加载中",
+      title: "加载中",
       noCache: true
     }
   },

@@ -54,9 +54,9 @@
       <div class="copyright-chunk">
         <div class="copyright-info">
           <p>版权信息</p>
-          <p>秦皇岛绍颖科技工作室</p>
-          <p>地址：河北省秦皇岛市海港区燕山大街街道报业大厦5楼515</p>
-          <p>京ICP备2022030667号-1</p>
+          <p>沈阳达信网络科技有限公司</p>
+          <p>地址：辽宁省沈阳市沈北新区道义北大街59-1号C区412-A313</p>
+          <p>辽ICP备2023010590号</p>
         </div>
       </div>
     </div>
@@ -100,23 +100,136 @@
         </div>
       </div>
     </van-dialog>
+
+    <!--
+		1、订单可以通过post方式或get方式提交，建议使用post方式；
+		   提交支付请求可以使用http或https方式，建议使用https方式。
+		2、通联收银宝网关地址、商户号及key值，在接入测试时由通联提供；
+		   通联收银宝网关地址、商户号，在接入生产时由通联提供，key值在通联收银宝商服服务平台上设置,https://vsp.allinpay.com。
+	-->
+    <!--================= post 方式提交支付请求 start =====================-->
+    <!--================= 测试地址,生产地址请参考在线接口文档https://aipboss.allinpay.com/know/devhelp/main.php?pid=20=====================-->
+    <!--=================  =====================-->
+    <form id="paymentForm" :action="paymentServerUrl" method="post">
+      <input id="cusid" type="hidden" name="cusid" :value="paymentForm.cusid" />
+      <input id="appid" type="hidden" name="appid" :value="paymentForm.appid" />
+      <input
+        id="version"
+        type="hidden"
+        name="version"
+        :value="paymentForm.version"
+      />
+      <input
+        id="randomstr"
+        type="hidden"
+        name="randomstr"
+        :value="paymentForm.randomstr"
+      />
+      <input
+        id="trxamt"
+        type="hidden"
+        name="trxamt"
+        :value="paymentForm.trxamt"
+      />
+      <input id="reqsn" type="hidden" name="reqsn" :value="paymentForm.reqsn" />
+      <input
+        id="charset"
+        type="hidden"
+        name="charset"
+        :value="paymentForm.charset"
+      />
+      <input
+        id="returl"
+        type="hidden"
+        name="returl"
+        :value="paymentForm.returl"
+      />
+      <input
+        id="notify_url"
+        type="hidden"
+        name="notify_url"
+        :value="paymentForm.notify_url"
+      />
+      <input id="body" type="hidden" name="body" :value="paymentForm.body" />
+      <input
+        id="remark"
+        type="hidden"
+        name="remark"
+        :value="paymentForm.remark"
+      />
+      <input
+        id="randomstr"
+        type="hidden"
+        name="randomstr"
+        :value="paymentForm.randomstr"
+      />
+      <input
+        id="validtime"
+        type="hidden"
+        name="validtime"
+        :value="paymentForm.validtime"
+      />
+      <input
+        id="limit_pay"
+        type="hidden"
+        name="limit_pay"
+        :value="paymentForm.limit_pay"
+      />
+      <input
+        id="asinfo"
+        type="hidden"
+        name="asinfo"
+        :value="paymentForm.asinfo"
+      />
+      <input
+        id="ishide"
+        type="hidden"
+        name="ishide"
+        :value="paymentForm.ishide"
+      />
+      <input
+        id="signtype"
+        type="hidden"
+        name="signtype"
+        :value="paymentForm.signtype"
+      />
+      <input id="sign" type="hidden" name="sign" :value="paymentForm.sign" />
+
+      <div class="weui-btn-area">
+        <input
+          class="weui-btn weui-btn_default"
+          type="submit"
+          value="跳转至收银宝H5收银台 >>"
+        />
+      </div>
+      <!--================= post 方式提交支付请求 end =====================-->
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import imgage1 from "@/assets/images/24012515281(2).webp";
 import imgage2 from "@/assets/images/24012515281(3).webp";
 import imgage3 from "@/assets/images/24012515281(4).webp";
 import imgage4 from "@/assets/images/24012515281(8).webp";
 import imgage5 from "@/assets/images/24012515281(10).webp";
+import { pay } from "@/api/playlet";
 
 defineOptions({
   name: "watchdramaSmokeRedEnvelope"
 });
 
 const router = useRouter();
+const route = useRoute();
+const payParams = reactive(route.query);
+// 支付信息
+const paymentForm = ref<any>({});
+// 支付地址
+const paymentServerUrl = ref();
+
+console.log("route: ", route.query, payParams);
 
 const dialogVisible = ref(false);
 
@@ -163,12 +276,62 @@ const winnersInfoList = ref([
   }
 ]);
 
-const handleGetNowBtn = () => {
+const handleGetNowBtn = async () => {
   console.log(" 立即领取 ");
-  router.push({
-    path: `/WatchShortDramas`,
-    query: {}
-  });
+  try {
+    const params = {
+      channel_key: payParams.channel_key,
+      uuid: payParams.uuid
+    };
+    const { data } = (await pay(params)) as any;
+    console.log("data: ", data);
+    const paramsPay = data.params;
+    const serverUrl = data.serverUrl;
+
+    const div = document.createElement("formdiv");
+    div.innerHTML = `
+      <form name="formPay" action="${serverUrl}" method="post">
+        <input type="hidden" name="cusid" id="cusid" value="${paramsPay.cusid}" />
+        <input type="hidden" name="appid" id="appid" value="${paramsPay.appid}"/>
+        <input type="hidden" name="version" id="version" value="${paramsPay.version}" />
+        <input type="hidden" name="randomstr" id="randomstr" value="${paramsPay.randomstr}"/>
+        <input type="hidden" name="trxamt" id="trxamt" value="${paramsPay.trxamt}" />
+        <input type="hidden" name="reqsn" id="reqsn" value="${paramsPay.reqsn}"/>
+        <input type="hidden" name="charset" id="charset" value="${paramsPay.charset}" />
+        <input type="hidden" name="returl" id="returl" value="${paramsPay.returl}"/>
+        <input type="hidden" name="notify_url" id="notify_url" value="${paramsPay.notify_url}"/>
+        <input type="hidden" name="body" id="body" value="${paramsPay.body}" />
+        <input type="hidden" name="validtime" id="validtime" value="${paramsPay.validtime}"/>
+        <input type="hidden" name="signtype" id="signtype" value="${paramsPay.signtype}"/>
+        <input type="hidden" name="sign" id="sign" value="${paramsPay.signMsg}" />
+
+        <div class="weui-btn-area">
+          <input class="weui-btn weui-btn_default" type="submit" value="跳转至收银宝H5收银台 >>" />
+        </div>
+      </form>
+    `;
+    document.body.appendChild(div);
+    document.forms["formPay"].setAttribute("target", "_self");
+    document.forms["formPay"].submit();
+    div.remove();
+
+    // Object.assign(paymentForm.value, data.params);
+    // paymentServerUrl.value = data.serverUrl;
+    // console.log("paymentForm.value: ", paymentForm.value);
+    // console.log("paymentServerUrl: ", paymentServerUrl.value);
+    // console.dir(document.getElementById("paymentForm"));
+    // const paymentFormElement = document.getElementById(
+    //   "paymentForm"
+    // ) as HTMLFormElement;
+    // 唤起支付
+    // paymentFormElement.submit();
+    // router.push({
+    //   path: `/WatchShortDramas`,
+    //   query: {}
+    // });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const handleCustomerService = () => {
@@ -183,10 +346,10 @@ const handleCustomerService = () => {
 .app-container {
   .bg-chunk {
     width: 100%;
-    height: auto;
+    height: 100%;
     margin: auto;
     background: url("@/assets/images/24012515281(1).webp") no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     overflow: hidden;
     position: relative;
     .title-chunk {
@@ -275,7 +438,7 @@ const handleCustomerService = () => {
       }
     }
     .copyright-chunk {
-      margin: 15px auto 100px;
+      margin: 40px auto 130px;
       color: #fff;
       font-size: 9px;
       text-align: center;
@@ -306,9 +469,9 @@ const handleCustomerService = () => {
         }
       }
       .adm-modal-footer {
-        width: 316px;
+        width: 90%;
         line-height: 50px;
-        margin-top: 20px;
+        margin: 20px auto 0;
         background-color: #1677ff;
         font-size: 18px;
         color: #fff;
