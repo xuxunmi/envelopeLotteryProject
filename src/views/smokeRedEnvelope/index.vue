@@ -276,6 +276,7 @@ watch(
     z-index: 9;
     .rule-record-wrapper {
       width: 180px;
+      line-height: 2;
       margin: 180px auto 10px;
       font-size: 12px;
       color: #fff;
