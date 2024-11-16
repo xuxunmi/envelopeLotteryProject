@@ -3,15 +3,8 @@
     <header>
       <div class="top-chunk">
         <div class="top-fixed-chunk">
-          <span
-            class="left-text-chunk"
-            @click="goBackWatchdramaSmokeRedEnvelope"
-            >返回</span
-          >
-          <span
-            class="dot-three-chunk"
-            @click="goBackWatchdramaSmokeRedEnvelope"
-          >
+          <span class="left-text-chunk" @click="goBackWatchdramaSmokeRedEnvelope">返回</span>
+          <span class="dot-three-chunk" @click="goBackWatchdramaSmokeRedEnvelope">
             <span class="dot" />
             <span class="dot" />
             <span class="dot" />
@@ -21,24 +14,16 @@
       <div class="title-chunk">
         <div class="title-fixed-chunk">
           <div class="left-chunk">继续看剧抽红包</div>
-          <div class="right-chunk" @click="goBackWatchdramaSmokeRedEnvelope">
-            看短剧抽888元红包
-          </div>
+          <div class="right-chunk" @click="goBackWatchdramaSmokeRedEnvelope">看短剧抽888元红包</div>
         </div>
       </div>
     </header>
     <section>
       <div class="info-chunk">点击下方入口进入大转盘参与抽奖</div>
-      <div
-        class="award-entrance-img-chunk"
-        @click="goShortDramasDrawredenvelopes"
-      >
+      <div class="award-entrance-img-chunk" @click="goShortDramasDrawredenvelopes">
         <img src="@/assets/images/2023062815161.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-1"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-1" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/da222.webp" alt="" />
       </div>
       <p class="text">
@@ -51,16 +36,10 @@
       <div class="banner-img-chunk banner-chunk-2" @click="goVideo">
         <img src="@/assets/images/1523.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-2"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-2" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/12zhong1888.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-3"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-3" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/22zhong888.webp" alt="" />
       </div>
       <div class="content-title-chunk">
@@ -72,47 +51,28 @@
       <div class="banner-img-chunk banner-chunk-4" @click="goVideo">
         <img src="@/assets/images/1523.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-4"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-4" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/da222.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-4"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-4" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/33da888.webp" alt="" />
       </div>
       <div class="hot-recommend-chunk">热门推荐</div>
-      <div
-        class="banner-img-chunk banner-chunk-5"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-5" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/1remen33.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-5"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-5" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/1remen33.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-5"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-5" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/1remen33.webp" alt="" />
       </div>
     </section>
     <footer>
       <div v-if="isVisable" class="bottom-chunk">
         <div class="bottom-fixed-chunk">
-          <div class="left-chunk" @click="pointClick('result-top')">
-            返回顶部
-          </div>
-          <div class="right-chunk" @click="goBackWatchdramaSmokeRedEnvelope">
-            看热播剧抽888元红包
-          </div>
+          <div class="left-chunk" @click="pointClick('result-top')">返回顶部</div>
+          <div class="right-chunk" @click="goBackWatchdramaSmokeRedEnvelope">看热播剧抽888元红包</div>
         </div>
       </div>
     </footer>
@@ -137,111 +97,105 @@
       <img src="@/assets/images/202304231756.webp" alt="" />
     </div>
 
-    <van-dialog
-      v-model:show="dialogVisible"
-      :show-confirm-button="false"
-      width="340px"
-    >
+    <van-dialog v-model:show="dialogVisible" :show-confirm-button="false" width="340px">
       <div class="adm-modal-content">
         <div>
           <h1>活动规则</h1>
           <p>一、活动时间:即日起至 2024 年12月 31 日:</p>
           <p>二、具体规则</p>
+          <p>1、用户付费购买短剧后，可在结果页（继续看剧入口）观看 10 集短剧；</p>
+          <p>2、用户付费购买短剧后，限时赠送幸运大转盘机会一次，用户自主选择是否参加；</p>
           <p>
-            1、用户付费购买短剧后，可在结果页（继续看剧入口）观看 10 集短剧；
+            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至 2888 元不等的现金红包，中奖概率 1/99999;
+            惊喜二： 20 元以内拼多多购物抵扣券一张，中奖概率 99998/99999；
           </p>
-          <p>
-            2、用户付费购买短剧后，限时赠送幸运大转盘机会一次，用户自主选择是否参加；
-          </p>
-          <p>
-            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至
-            2888 元不等的现金红包，中奖概率 1/99999; 惊喜二： 20
-            元以内拼多多购物抵扣券一张，中奖概率 99998/99999；
-          </p>
-          <p>
-            4、用户在幸运大转盘获得奖品后，请勿退出活动，退出可能导致奖品丢失，请在获得奖品后及时兑换或领取；
-          </p>
+          <p>4、用户在幸运大转盘获得奖品后，请勿退出活动，退出可能导致奖品丢失，请在获得奖品后及时兑换或领取；</p>
           <p>
             5、抽中现金红包的用户，可在弹出页面填写手机号或联系在线客服领奖；抽中拼多多购物抵扣券的用户，可在活动页面跳转至拼多多领取并使用。
           </p>
         </div>
-        <div class="adm-modal-footer" @click="dialogVisible = false">
-          我知道了
-        </div>
+        <div class="adm-modal-footer" @click="dialogVisible = false">我知道了</div>
       </div>
     </van-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { ref, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 defineOptions({
-  name: "WatchShortDramas"
-});
+  name: 'WatchShortDramas'
+})
 
-const router = useRouter();
-const dialogVisible = ref(false);
+const router = useRouter()
+const route = useRoute()
+const payParams = reactive(route.query)
+console.log('route: ', route.query, payParams)
+const dialogVisible = ref(false)
 
 const pointClick = (id: string) => {
-  const el = document.querySelector(`#${id}`) as HTMLDivElement;
-  console.log("pointClick", el);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-};
+  const el = document.querySelector(`#${id}`) as HTMLDivElement
+  console.log('pointClick', el)
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 
 const goShortDramasDrawredenvelopes = () => {
   router.push({
     path: `/shortDramasDrawredenvelopes`,
-    query: {}
-  });
-};
+    query: {
+      orderNo: payParams.orderNo,
+      uuid: payParams.uuid,
+      channel_key: payParams.channel_key
+    }
+  })
+}
 
 const goBackWatchdramaSmokeRedEnvelope = () => {
   router.push({
     path: `/watchdramaSmokeRedEnvelope`,
-    query: {}
-  });
-};
+    query: {
+      uuid: payParams.uuid,
+      channel_key: payParams.channel_key
+    }
+  })
+}
 
 const goVideo = () => {
   window.open(
-    "https://hwdj.liuyuekeji.cn/home?title=%E6%A3%AE%E8%BF%85%E5%89%A7%E5%9C%BA&parent_order_id=nRNZy",
-    "_self"
-  );
-};
+    'https://hwdj.liuyuekeji.cn/home?title=%E6%A3%AE%E8%BF%85%E5%89%A7%E5%9C%BA&parent_order_id=nRNZy',
+    '_self'
+  )
+}
 
 const handleCustomerService = () => {
   window.open(
-    "https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=",
-    "_self"
-  );
-};
+    'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    '_self'
+  )
+}
 
 //监听窗口滚动
-const isVisable = ref(false);
+const isVisable = ref(false)
 // body不能设置100%高度，不然会影响页面会影响滚动事件的触发条件
 const windowScrollListener = () => {
   //获取操作元素最顶端到页面顶端的垂直距离
-  const scrollTop =
-    window.pageXOffset ||
-    document.body.scrollTop ||
-    document.documentElement.scrollTop;
-  console.log("scrollTop: ", scrollTop);
+  const scrollTop = window.pageXOffset || document.body.scrollTop || document.documentElement.scrollTop
+  console.log('scrollTop: ', scrollTop)
   if (scrollTop >= 360) {
-    isVisable.value = true; //大于360时显示元素
+    isVisable.value = true //大于360时显示元素
   } else {
-    isVisable.value = false; //小于360时隐藏元素
+    isVisable.value = false //小于360时隐藏元素
   }
-};
+}
 
-window.addEventListener("scroll", () => {
-  requestAnimationFrame(windowScrollListener);
-});
+window.addEventListener('scroll', () => {
+  requestAnimationFrame(windowScrollListener)
+})
 
 onBeforeUnmount(() => {
-  window.removeEventListener("scroll", windowScrollListener);
-});
+  window.removeEventListener('scroll', windowScrollListener)
+})
 </script>
 
 <style lang="less" scoped>
@@ -270,7 +224,7 @@ onBeforeUnmount(() => {
           font-size: 18px;
           margin-left: 18px;
           &::before {
-            content: "";
+            content: '';
             display: block;
             width: 11px;
             height: 11px;
@@ -333,12 +287,12 @@ onBeforeUnmount(() => {
           align-items: center;
           color: #c91c18;
           &::before {
-            content: "";
+            content: '';
             display: block;
             width: 12px;
             height: 14px;
             margin-right: 10px;
-            background: url("@/assets/images//202303221116.webp") no-repeat;
+            background: url('@/assets/images//202303221116.webp') no-repeat;
             background-size: 100% 100%;
           }
         }
@@ -359,12 +313,12 @@ onBeforeUnmount(() => {
       line-height: 30px;
       padding-left: 30px;
       &::before {
-        content: "";
+        content: '';
         display: block;
         width: 15.5px;
         height: 12.5px;
         margin-right: 13px;
-        background: url("@/assets/images/202304231754.webp") no-repeat;
+        background: url('@/assets/images/202304231754.webp') no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -404,11 +358,11 @@ onBeforeUnmount(() => {
         justify-content: center;
         align-items: center;
         &::before {
-          content: "";
+          content: '';
           display: block;
           width: 14px;
           height: 12px;
-          background: url("@/assets/images/202304241640.webp") no-repeat;
+          background: url('@/assets/images/202304241640.webp') no-repeat;
           background-size: 100% 100%;
         }
       }
@@ -443,7 +397,7 @@ onBeforeUnmount(() => {
       height: 51.5px;
       line-height: 16px;
       padding-top: 9px;
-      background: url("@/assets/images/202304231761.webp") no-repeat;
+      background: url('@/assets/images/202304231761.webp') no-repeat;
       background-size: 100% 100%;
       color: #fff;
       font-size: 16px;
@@ -496,12 +450,12 @@ onBeforeUnmount(() => {
           background-color: #c91c18;
           color: #fff;
           &::before {
-            content: "";
+            content: '';
             display: block;
             width: 19px;
             height: 14px;
             margin-right: 10px;
-            background: url("@/assets/images/202304231770.webp") no-repeat;
+            background: url('@/assets/images/202304231770.webp') no-repeat;
             background-size: 100% 100%;
           }
         }
@@ -521,8 +475,7 @@ onBeforeUnmount(() => {
     width: 41px;
     height: 41px;
     margin-bottom: 10px;
-    background: url("@/assets/images/202304231757.webp") 0% 0% / 100% 100%
-      no-repeat;
+    background: url('@/assets/images/202304231757.webp') 0% 0% / 100% 100% no-repeat;
     .top {
       margin-bottom: 2px;
     }
@@ -544,6 +497,7 @@ onBeforeUnmount(() => {
     top: 213.5px;
     left: 0;
     width: 23.5px;
+    z-index: 9;
   }
 
   :deep(.van-dialog) {

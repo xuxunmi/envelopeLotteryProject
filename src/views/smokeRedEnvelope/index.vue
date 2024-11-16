@@ -1,31 +1,19 @@
 <template>
   <div class="app-container">
     <div class="app-container__bg relative">
-      <img
-        class="red-envelope relative"
-        src="@/assets/images/bg-image1.webp"
-        alt=""
-      />
+      <img class="red-envelope relative" src="@/assets/images/bg-image1.webp" alt="" />
       <div class="open-wrapper" @click="handleOpenRedEnvelope">
         <img src="@/assets/images/open.webp" alt="" />
       </div>
       <div class="finger-wrapper">
-        <img
-          class="finger-click"
-          src="@/assets/images/finger-click.webp"
-          alt=""
-        />
+        <img class="finger-click" src="@/assets/images/finger-click.webp" alt="" />
       </div>
     </div>
     <div class="right-fixed1-chunk" @click="handleRuleOpen">
       <img class="rule" src="@/assets/images/rule.webp" alt="" />
     </div>
     <div class="right-fixed2-chunk" @click="handleGoCustomerService">
-      <img
-        class="customer-service"
-        src="@/assets/images/customer-service.webp"
-        alt=""
-      />
+      <img class="customer-service" src="@/assets/images/customer-service.webp" alt="" />
     </div>
     <div class="record-description-wrapper">
       <div class="record1">沈阳达信网络科技有限公司</div>
@@ -33,18 +21,12 @@
       <div class="record3">辽ICP备2023010590号</div>
     </div>
     <!-- 弹窗 -->
-    <div
-      v-if="dialogVisible"
-      class="rule-description-wrapper"
-      @click="handleRuleClose"
-    >
+    <div v-if="dialogVisible" class="rule-description-wrapper" @click="handleRuleClose">
       <div class="rule-content-wrapper">
         <p>一、活动时间</p>
         <p>即日起至 2024 年 12 月 31 日。</p>
         <p>二、活动说明</p>
-        <p>
-          1、凡在本公司H5网站中，付费购买微短剧的用户，均可在付费后的结果页上观看9部微短剧剧集；
-        </p>
+        <p>1、凡在本公司H5网站中，付费购买微短剧的用户，均可在付费后的结果页上观看9部微短剧剧集；</p>
         <p>
           2、凡在本公司H5网站中，付费购买微短剧的用户，均限时免费赠送一次幸运大转盘活动的参加机会，用户可自主自愿选择参加或不参加；
         </p>
@@ -55,9 +37,7 @@
         <p>三、活动规则</p>
         <p>1. 如用户自愿免费参加一次幸运大转盘的活动，有机会获得以下奖品：</p>
         <p>【奖品及中奖概率说明】</p>
-        <p>
-          惊喜一：88元至2888元不等的现金红包,整场活动的中奖概率不低于1/99999；
-        </p>
+        <p>惊喜一：88元至2888元不等的现金红包,整场活动的中奖概率不低于1/99999；</p>
         <p>
           惊喜二：0.01元至80元不等的拼多多购物抵扣券，用户可在购买拼多多平台的部分商品时进行抵扣使用，可抵扣的商品及金额由拼多多平台自行决定，与本公司无关。整场活动的中奖概率接近99998/99999；
         </p>
@@ -83,70 +63,68 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { login } from "@/api/playlet";
+import { ref, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { login } from '@/api/playlet'
 
 defineOptions({
-  name: "SmokeRedEnvelope"
-});
+  name: 'SmokeRedEnvelope'
+})
 
 //#endregion
-const router = useRouter();
-const route = useRoute();
-const channelKey = route.query.channel_key;
+const router = useRouter()
+const route = useRoute()
+const channelKey = route.query.channel_key
 const payParams = reactive({
-  channel_key: "",
-  channel_number: "",
-  uuid: ""
-});
+  channel_key: '',
+  channel_number: '',
+  uuid: ''
+})
 
-console.log("route: ", route.query, channelKey, payParams);
+console.log('route: ', route.query, channelKey, payParams)
 
 const userLogin = async () => {
   try {
     const params = {
       channel_key: channelKey
-    };
-    const { data } = (await login(params)) as any;
-    console.log("data: ", data);
-    Object.assign(payParams, data);
-    handleTimerGo();
+    }
+    const { data } = (await login(params)) as any
+    console.log('data: ', data)
+    Object.assign(payParams, data)
+    handleTimerGo()
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
-userLogin();
+userLogin()
 
-const timer = ref();
-const dialogVisible = ref(false);
+const timer = ref()
+const dialogVisible = ref(false)
 
 const handleRuleOpen = () => {
-  dialogVisible.value = true;
-  clearTimeout(timer.value);
-};
+  dialogVisible.value = true
+  clearTimeout(timer.value)
+}
 
 const handleRuleClose = () => {
-  dialogVisible.value = false;
-  handleTimerGo();
-};
+  dialogVisible.value = false
+  handleTimerGo()
+}
 
 const handleGoCustomerService = () => {
   window.open(
-    "https://tuia.qiyukf.com/client?k=895e029b6bd533c9e14a2706b28bd3be&wp=1&robotShuntSwitch=1&robotId=127637&gid=397581826",
-    "_self"
-  );
-};
+    'https://tuia.qiyukf.com/client?k=895e029b6bd533c9e14a2706b28bd3be&wp=1&robotShuntSwitch=1&robotId=127637&gid=397581826',
+    '_self'
+  )
+}
 
 const handleOpenRedEnvelope = () => {
-  const fingerClickElment = document.querySelector(
-    ".finger-click"
-  ) as HTMLElement;
-  console.dir(fingerClickElment);
+  const fingerClickElment = document.querySelector('.finger-click') as HTMLElement
+  console.dir(fingerClickElment)
   if (fingerClickElment) {
-    fingerClickElment.style.transform = "rotate(-15deg)";
-    fingerClickElment.style.transition = "transform 0.3s linear";
+    fingerClickElment.style.transform = 'rotate(-15deg)'
+    fingerClickElment.style.transition = 'transform 0.3s linear'
     setTimeout(() => {
       router.push({
         path: `/watchdramaSmokeRedEnvelope`,
@@ -154,25 +132,23 @@ const handleOpenRedEnvelope = () => {
           uuid: payParams.uuid,
           channel_key: payParams.channel_key
         }
-      });
-    }, 500);
+      })
+    }, 500)
   }
-};
+}
 
 // 每次进入页面都先清空定时器
-clearTimeout(timer.value);
+clearTimeout(timer.value)
 
 const handleTimerGo = () => {
   // 延时处理
-  if (timer.value) clearTimeout(timer.value);
+  if (timer.value) clearTimeout(timer.value)
   timer.value = setTimeout(() => {
-    const fingerClickElment = document.querySelector(
-      ".finger-click"
-    ) as HTMLElement;
-    console.dir(fingerClickElment);
+    const fingerClickElment = document.querySelector('.finger-click') as HTMLElement
+    console.dir(fingerClickElment)
     if (fingerClickElment) {
-      fingerClickElment.style.transform = "rotate(-15deg)";
-      fingerClickElment.style.transition = "transform 0.3s linear";
+      fingerClickElment.style.transform = 'rotate(-15deg)'
+      fingerClickElment.style.transition = 'transform 0.3s linear'
       setTimeout(() => {
         router.push({
           path: `/watchdramaSmokeRedEnvelope`,
@@ -180,29 +156,29 @@ const handleTimerGo = () => {
             uuid: payParams.uuid,
             channel_key: payParams.channel_key
           }
-        });
-      }, 500);
+        })
+      }, 500)
     }
-  }, 3000);
-};
+  }, 3000)
+}
 
 watch(
   () => route.path,
   to => {
-    if (to === "/smokeRedEnvelope") {
-      clearTimeout(timer.value);
+    if (to === '/smokeRedEnvelope') {
+      clearTimeout(timer.value)
       // handleTimerGo();
     }
   },
   {
     immediate: true
   }
-);
+)
 </script>
 
 <style lang="less" scoped>
 .app-container {
-  background: url("@/assets/images/bg-image2.webp") no-repeat;
+  background: url('@/assets/images/bg-image2.webp') no-repeat;
   background-size: cover;
   height: 100vh;
   overflow: hidden;

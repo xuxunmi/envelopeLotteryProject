@@ -26,11 +26,7 @@
             <van-swipe-item v-for="item in winnersInfoList" :key="item.id">
               <div class="flex justify-between items-center h-full">
                 <div class="flex items-center h-full">
-                  <img
-                    style="width: 21px; height: 21px"
-                    :src="item.imgUrl"
-                    alt=""
-                  />
+                  <img style="width: 21px; height: 21px" :src="item.imgUrl" alt="" />
                   <span style="margin-left: 5px">{{ item.name }}</span>
                 </div>
                 <div>
@@ -42,9 +38,7 @@
             </van-swipe-item>
           </van-swipe>
         </div>
-        <div class="button-chunk animation_scaling" @click="handleGetNowBtn">
-          立即领取
-        </div>
+        <div class="button-chunk animation_scaling" @click="handleGetNowBtn">立即领取</div>
         <div class="payment-select-chunk">
           <div class="paySelect-component">
             <div class="adm-space adm-space-vertical" />
@@ -67,124 +61,111 @@
       <img src="@/assets/images/24012515281(7).webp" alt="" />
     </div>
 
-    <van-dialog
-      v-model:show="dialogVisible"
-      :show-confirm-button="false"
-      width="340px"
-    >
+    <van-dialog v-model:show="dialogVisible" :show-confirm-button="false" width="340px">
       <div class="adm-modal-content">
         <div>
           <h1>活动规则</h1>
           <p>一、活动时间:即日起至 2024 年12月 31 日:</p>
           <p>二、具体规则</p>
+          <p>1、用户付费购买短剧后，可在结果页（继续看剧入口）观看 10 集短剧；</p>
+          <p>2、用户付费购买短剧后，限时赠送幸运大转盘机会一次，用户自主选择是否参加；</p>
           <p>
-            1、用户付费购买短剧后，可在结果页（继续看剧入口）观看 10 集短剧；
+            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至 2888 元不等的现金红包，中奖概率 1/99999;
+            惊喜二： 20 元以内拼多多购物抵扣券一张，中奖概率 99998/99999；
           </p>
-          <p>
-            2、用户付费购买短剧后，限时赠送幸运大转盘机会一次，用户自主选择是否参加；
-          </p>
-          <p>
-            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至
-            2888 元不等的现金红包，中奖概率 1/99999; 惊喜二： 20
-            元以内拼多多购物抵扣券一张，中奖概率 99998/99999；
-          </p>
-          <p>
-            4、用户在幸运大转盘获得奖品后，请勿退出活动，退出可能导致奖品丢失，请在获得奖品后及时兑换或领取；
-          </p>
+          <p>4、用户在幸运大转盘获得奖品后，请勿退出活动，退出可能导致奖品丢失，请在获得奖品后及时兑换或领取；</p>
           <p>
             5、抽中现金红包的用户，可在弹出页面填写手机号或联系在线客服领奖；抽中拼多多购物抵扣券的用户，可在活动页面跳转至拼多多领取并使用。
           </p>
         </div>
-        <div class="adm-modal-footer" @click="dialogVisible = false">
-          我知道了
-        </div>
+        <div class="adm-modal-footer" @click="dialogVisible = false">我知道了</div>
       </div>
     </van-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import imgage1 from "@/assets/images/24012515281(2).webp";
-import imgage2 from "@/assets/images/24012515281(3).webp";
-import imgage3 from "@/assets/images/24012515281(4).webp";
-import imgage4 from "@/assets/images/24012515281(8).webp";
-import imgage5 from "@/assets/images/24012515281(10).webp";
-import { pay } from "@/api/playlet";
+import { ref, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import imgage1 from '@/assets/images/24012515281(2).webp'
+import imgage2 from '@/assets/images/24012515281(3).webp'
+import imgage3 from '@/assets/images/24012515281(4).webp'
+import imgage4 from '@/assets/images/24012515281(8).webp'
+import imgage5 from '@/assets/images/24012515281(10).webp'
+import { pay } from '@/api/playlet'
 
 defineOptions({
-  name: "watchdramaSmokeRedEnvelope"
-});
+  name: 'watchdramaSmokeRedEnvelope'
+})
 
-const router = useRouter();
-const route = useRoute();
-const payParams = reactive(route.query);
+const router = useRouter()
+const route = useRoute()
+const payParams = reactive(route.query)
 // 支付信息
-const paymentForm = ref<any>({});
+const paymentForm = ref<any>({})
 // 支付地址
-const paymentServerUrl = ref();
+const paymentServerUrl = ref()
 
-console.log("route: ", route.query, payParams);
+console.log('route: ', route.query, payParams)
 
-const dialogVisible = ref(false);
+const dialogVisible = ref(false)
 
 const winnersInfoList = ref([
   {
     id: 1,
-    name: "蒋**",
-    money: "288",
-    desc1: "看短剧抽中了",
-    desc2: "元红包",
+    name: '蒋**',
+    money: '288',
+    desc1: '看短剧抽中了',
+    desc2: '元红包',
     imgUrl: imgage1
   },
   {
     id: 2,
-    name: "林**",
-    money: "288",
-    desc1: "看短剧抽中了",
-    desc2: "元红包",
+    name: '林**',
+    money: '288',
+    desc1: '看短剧抽中了',
+    desc2: '元红包',
     imgUrl: imgage2
   },
   {
     id: 3,
-    name: "张**",
-    money: "88",
-    desc1: "看短剧抽中了",
-    desc2: "元红包",
+    name: '张**',
+    money: '88',
+    desc1: '看短剧抽中了',
+    desc2: '元红包',
     imgUrl: imgage3
   },
   {
     id: 4,
-    name: "徐**",
-    money: "888",
-    desc1: "看短剧抽中了",
-    desc2: "元红包",
+    name: '徐**',
+    money: '888',
+    desc1: '看短剧抽中了',
+    desc2: '元红包',
     imgUrl: imgage4
   },
   {
     id: 5,
-    name: "陈**",
-    money: "78",
-    desc1: "看短剧抽中了",
-    desc2: "元红包",
+    name: '陈**',
+    money: '78',
+    desc1: '看短剧抽中了',
+    desc2: '元红包',
     imgUrl: imgage5
   }
-]);
+])
 
 const handleGetNowBtn = async () => {
-  console.log(" 立即领取 ");
+  console.log(' 立即领取 ')
   try {
     const params = {
       channel_key: payParams.channel_key,
       uuid: payParams.uuid
-    };
-    const { data } = (await pay(params)) as any;
-    console.log("data: ", data);
-    const paramsPay = data.params;
-    const serverUrl = data.serverUrl;
+    }
+    const { data } = (await pay(params)) as any
+    console.log('data: ', data)
+    const paramsPay = data.params
+    const serverUrl = data.serverUrl
 
-    const div = document.createElement("formdiv");
+    const div = document.createElement('formdiv')
     div.innerHTML = `
       <form name="formPay" action="${serverUrl}" method="post">
         <input type="hidden" name="cusid" id="cusid" value="${paramsPay.cusid}" />
@@ -205,11 +186,11 @@ const handleGetNowBtn = async () => {
           <input class="weui-btn weui-btn_default" type="submit" value="跳转至收银宝H5收银台 >>" />
         </div>
       </form>
-    `;
-    document.body.appendChild(div);
-    document.forms["formPay"].setAttribute("target", "_self");
-    document.forms["formPay"].submit();
-    div.remove();
+    `
+    document.body.appendChild(div)
+    document.forms['formPay'].setAttribute('target', '_self')
+    document.forms['formPay'].submit()
+    div.remove()
 
     // Object.assign(paymentForm.value, data.params);
     // paymentServerUrl.value = data.serverUrl;
@@ -226,16 +207,16 @@ const handleGetNowBtn = async () => {
     //   query: {}
     // });
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 const handleCustomerService = () => {
   window.open(
-    "https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=",
-    "_self"
-  );
-};
+    'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    '_self'
+  )
+}
 </script>
 
 <style lang="less" scoped>
@@ -244,7 +225,7 @@ const handleCustomerService = () => {
     width: 100%;
     height: 100%;
     margin: auto;
-    background: url("@/assets/images/24012515281(1).webp") no-repeat;
+    background: url('@/assets/images/24012515281(1).webp') no-repeat;
     background-size: 100% 100%;
     overflow: hidden;
     position: relative;
@@ -267,7 +248,7 @@ const handleCustomerService = () => {
         font-weight: initial;
       }
       .price-chunk {
-        background: url("@/assets/images/24012515281(5).webp") no-repeat;
+        background: url('@/assets/images/24012515281(5).webp') no-repeat;
         background-size: 100% 100%;
         position: absolute;
         top: -10px;
@@ -292,11 +273,11 @@ const handleCustomerService = () => {
       width: 367px;
       height: 220px;
       margin: 140px auto auto;
-      background: url("@/assets/images/24012515281(9).webp") no-repeat;
+      background: url('@/assets/images/24012515281(9).webp') no-repeat;
       background-size: 100% 100%;
       overflow: hidden;
       &::before {
-        content: "";
+        content: '';
         display: table;
       }
       .use-comment-chunk {

@@ -3,10 +3,10 @@
  * @param {*} name: 参数名
  */
 export function getQueryString(name) {
-  let requestString = location.search;
-  let reg = new RegExp("(?:\\?|&)" + name + "=(.*?)(?:&|$)");
+  let requestString = location.search
+  let reg = new RegExp('(?:\\?|&)' + name + '=(.*?)(?:&|$)')
   if (reg.test(requestString)) {
-    return decodeURIComponent(RegExp.$1);
+    return decodeURIComponent(RegExp.$1)
   }
-  return undefined;
+  return undefined
 }

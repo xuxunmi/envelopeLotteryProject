@@ -3,16 +3,9 @@
     <header>
       <div class="top-chunk">
         <div class="top-fixed-chunk">
-          <span
-            class="left-text-chunk"
-            @click="goBackWatchdramaSmokeRedEnvelope"
-            >返回</span
-          >
+          <span class="left-text-chunk" @click="goBackWatchdramaSmokeRedEnvelope">返回</span>
           <span class="center-content-chunk">抽奖结果</span>
-          <span
-            class="dot-three-chunk"
-            @click="goBackWatchdramaSmokeRedEnvelope"
-          >
+          <span class="dot-three-chunk" @click="goBackWatchdramaSmokeRedEnvelope">
             <span class="dot" />
             <span class="dot" />
             <span class="dot" />
@@ -37,10 +30,7 @@
       <!-- <div class="award-entrance-img-chunk">
         <img src="@/assets/images/2023062815161.webp" alt="" />
       </div> -->
-      <div
-        class="banner-img-chunk banner-chunk-1"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-1" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/da222.webp" alt="" />
       </div>
       <p class="text">
@@ -53,28 +43,16 @@
       <!-- <div class="banner-img-chunk banner-chunk-2" @click="goVideo">
         <img src="@/assets/images/1523.webp" alt="" />
       </div> -->
-      <div
-        class="banner-img-chunk banner-chunk-2"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-2" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/12zhong1888.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-3"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-3" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/22zhong888.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-4"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-4" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/1da888.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-4"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-4" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/33da888.webp" alt="" />
       </div>
       <!-- <div class="content-title-chunk">
@@ -99,34 +77,21 @@
         <img src="@/assets/images/33da888.webp" alt="" />
       </div> -->
       <div class="hot-recommend-chunk">热门推荐</div>
-      <div
-        class="banner-img-chunk banner-chunk-5"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-5" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/1remen33.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-5"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-5" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/1remen33.webp" alt="" />
       </div>
-      <div
-        class="banner-img-chunk banner-chunk-5"
-        @click="goBackWatchdramaSmokeRedEnvelope"
-      >
+      <div class="banner-img-chunk banner-chunk-5" @click="goBackWatchdramaSmokeRedEnvelope">
         <img src="@/assets/images/1remen33.webp" alt="" />
       </div>
     </section>
     <footer>
       <div class="bottom-chunk">
         <div v-if="isVisable" class="bottom-fixed-chunk">
-          <div class="left-chunk" @click="pointClick('result-top')">
-            返回顶部
-          </div>
-          <div class="right-chunk" @click="goBackWatchdramaSmokeRedEnvelope">
-            看热播剧抽888元红包
-          </div>
+          <div class="left-chunk" @click="pointClick('result-top')">返回顶部</div>
+          <div class="right-chunk" @click="goBackWatchdramaSmokeRedEnvelope">看热播剧抽888元红包</div>
         </div>
       </div>
     </footer>
@@ -154,67 +119,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { ref, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 defineOptions({
-  name: "shortDramasDrawredenvelopes"
-});
+  name: 'shortDramasDrawredenvelopes'
+})
 
-const router = useRouter();
-const dialogVisible = ref(false);
+const router = useRouter()
+const route = useRoute()
+const payParams = reactive(route.query)
+console.log('route: ', route.query, payParams)
+const dialogVisible = ref(false)
 
 const pointClick = (id: string) => {
-  const el = document.querySelector(`#${id}`) as HTMLDivElement;
-  console.log("pointClick", el);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-};
+  const el = document.querySelector(`#${id}`) as HTMLDivElement
+  console.log('pointClick', el)
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 
 const goBackWatchdramaSmokeRedEnvelope = () => {
   router.push({
     path: `/watchdramaSmokeRedEnvelope`,
-    query: {}
-  });
-};
+    query: {
+      uuid: payParams.uuid,
+      channel_key: payParams.channel_key
+    }
+  })
+}
 
 const goVideo = () => {
   window.open(
-    "https://hwdj.liuyuekeji.cn/home?title=%E6%A3%AE%E8%BF%85%E5%89%A7%E5%9C%BA&parent_order_id=nRNZy",
-    "_self"
-  );
-};
+    'https://hwdj.liuyuekeji.cn/home?title=%E6%A3%AE%E8%BF%85%E5%89%A7%E5%9C%BA&parent_order_id=nRNZy',
+    '_self'
+  )
+}
 
 const handleCustomerService = () => {
   window.open(
-    "https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=",
-    "_self"
-  );
-};
+    'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    '_self'
+  )
+}
 
 //监听窗口滚动
-const isVisable = ref(false);
+const isVisable = ref(false)
 // body不能设置100%高度，不然会影响页面会影响滚动事件的触发条件
 const windowScrollListener = () => {
   //获取操作元素最顶端到页面顶端的垂直距离
-  const scrollTop =
-    window.pageXOffset ||
-    document.body.scrollTop ||
-    document.documentElement.scrollTop;
-  console.log("scrollTop: ", scrollTop);
+  const scrollTop = window.pageXOffset || document.body.scrollTop || document.documentElement.scrollTop
+  console.log('scrollTop: ', scrollTop)
   if (scrollTop >= 500) {
-    isVisable.value = true; //大于500时显示元素
+    isVisable.value = true //大于500时显示元素
   } else {
-    isVisable.value = false; //小于500时隐藏元素
+    isVisable.value = false //小于500时隐藏元素
   }
-};
+}
 
-window.addEventListener("scroll", () => {
-  requestAnimationFrame(windowScrollListener);
-});
+window.addEventListener('scroll', () => {
+  requestAnimationFrame(windowScrollListener)
+})
 
 onBeforeUnmount(() => {
-  window.removeEventListener("scroll", windowScrollListener);
-});
+  window.removeEventListener('scroll', windowScrollListener)
+})
 </script>
 
 <style lang="less" scoped>
@@ -243,7 +211,7 @@ onBeforeUnmount(() => {
           font-size: 18px;
           margin-left: 18px;
           &::before {
-            content: "";
+            content: '';
             display: block;
             width: 11px;
             height: 11px;
@@ -311,12 +279,12 @@ onBeforeUnmount(() => {
           align-items: center;
           color: #c91c18;
           &::before {
-            content: "";
+            content: '';
             display: block;
             width: 12px;
             height: 14px;
             margin-right: 10px;
-            background: url("@/assets/images/202303221116.webp") no-repeat;
+            background: url('@/assets/images/202303221116.webp') no-repeat;
             background-size: 100% 100%;
           }
         }
@@ -392,11 +360,11 @@ onBeforeUnmount(() => {
         justify-content: center;
         align-items: center;
         &::before {
-          content: "";
+          content: '';
           display: block;
           width: 14px;
           height: 12px;
-          background: url("@/assets/images/202304241640.webp") no-repeat;
+          background: url('@/assets/images/202304241640.webp') no-repeat;
           background-size: 100% 100%;
         }
       }
@@ -431,7 +399,7 @@ onBeforeUnmount(() => {
       height: 51.5px;
       line-height: 16px;
       padding-top: 9px;
-      background: url("@/assets/images/202304231770.webp") no-repeat;
+      background: url('@/assets/images/202304231770.webp') no-repeat;
       background-size: 100% 100%;
       color: #fff;
       font-size: 16px;
@@ -484,12 +452,12 @@ onBeforeUnmount(() => {
           background-color: #c91c18;
           color: #fff;
           &::before {
-            content: "";
+            content: '';
             display: block;
             width: 19px;
             height: 14px;
             margin-right: 10px;
-            background: url("@/assets/images/202304231770.webp") no-repeat;
+            background: url('@/assets/images/202304231770.webp') no-repeat;
             background-size: 100% 100%;
           }
         }
@@ -509,8 +477,7 @@ onBeforeUnmount(() => {
     width: 41px;
     height: 41px;
     margin-bottom: 10px;
-    background: url("@/assets/images/202304231757.webp") 0% 0% / 100% 100%
-      no-repeat;
+    background: url('@/assets/images/202304231757.webp') 0% 0% / 100% 100% no-repeat;
     .top {
       margin-bottom: 2px;
     }
