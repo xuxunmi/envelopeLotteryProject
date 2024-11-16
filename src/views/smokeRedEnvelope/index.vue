@@ -68,7 +68,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { login } from '@/api/playlet'
 
 defineOptions({
-  name: 'SmokeRedEnvelope'
+  name: 'highestSmokeRedEnvelope'
 })
 
 //#endregion

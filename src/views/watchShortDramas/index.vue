@@ -125,7 +125,7 @@ import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 defineOptions({
-  name: 'WatchShortDramas'
+  name: 'watchShortDramas'
 })
 
 const router = useRouter()

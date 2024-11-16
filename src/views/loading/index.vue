@@ -10,7 +10,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { login } from '@/api/playlet'
 
 defineOptions({
-  name: 'Loading'
+  name: 'loading'
 })
 
 const route = useRoute()
