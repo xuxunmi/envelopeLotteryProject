@@ -17,7 +17,7 @@
     </div>
     <div class="record-description-wrapper">
       <div class="record1">沈阳达信网络科技有限公司</div>
-      <div class="record2" />
+      <div class="record2">客服电话：13650803912</div>
       <div class="record3">辽ICP备2023010590号</div>
     </div>
     <!-- 弹窗 -->

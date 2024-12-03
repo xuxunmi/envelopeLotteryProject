@@ -49,6 +49,7 @@
         <div class="copyright-info">
           <p>版权信息</p>
           <p>沈阳达信网络科技有限公司</p>
+          <p>客服电话：<span class="phone">13650803912</span></p>
           <p>地址：辽宁省沈阳市沈北新区道义北大街59-1号C区412-A313</p>
           <p>辽ICP备2023010590号</p>
         </div>
@@ -319,6 +320,11 @@ const handleCustomerService = () => {
       color: #fff;
       font-size: 9px;
       text-align: center;
+      .copyright-info {
+        .phone {
+          letter-spacing: 1px;
+        }
+      }
     }
   }
   .right-fixed-chunk-1,
