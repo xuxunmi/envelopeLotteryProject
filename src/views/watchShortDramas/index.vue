@@ -96,7 +96,9 @@
     <div class="left-fixed1-chunk" @click="dialogVisible = true">
       <img src="@/assets/images/202304231756.webp" alt="" />
     </div>
-
+    <div class="zhuanpan" v-if="showZhuanpan">
+      <zhuanpan :payParams="payParams" />
+    </div>
     <van-dialog v-model:show="dialogVisible" :show-confirm-button="false" width="340px">
       <div class="adm-modal-content">
         <div>
@@ -121,8 +123,12 @@
 </template>
 
 <script setup lang="ts">
+import zhuanpan from "@/components/zhuanpan/index.vue";
+import { defineComponent } from "vue";
+import { tuia } from '@/api/playlet'
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+
 
 defineOptions({
   name: 'watchShortDramas'
@@ -133,22 +139,52 @@ const route = useRoute()
 const payParams = reactive(route.query)
 console.log('route: ', route.query, payParams)
 const dialogVisible = ref(false)
-
+const showZhuanpan = ref(false)
 const pointClick = (id: string) => {
   const el = document.querySelector(`#${id}`) as HTMLDivElement
   console.log('pointClick', el)
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
-
+let channel_key = payParams.channel_key;
+channel_key = channel_key.split('?');
+if(channel_key.length > 1){
+  payParams.channel_key = channel_key[0];
+}
+// let a_old = localStorage.getItem('a_old');
+// if(!a_old){
+  const a_oId = payParams.a_oId;
+// }
+console.log("a_oId",a_oId);
+const lettuia = async () => {
+  try {
+    let formData = new FormData();
+    formData.append('clickId',a_oId);
+    formData.append('channel',2);
+    // const params = {
+    //   clickId: a_old,
+    //   channel:2
+    // }
+    const { data } = (await tuia(formData)) as any
+    console.log('data: ', data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+lettuia();
+// console.log(channel_key);
 const goShortDramasDrawredenvelopes = () => {
-  router.push({
-    path: `/shortDramasDrawredenvelopes`,
-    query: {
-      orderNo: payParams.orderNo,
-      uuid: payParams.uuid,
-      channel_key: payParams.channel_key
-    }
-  })
+  showZhuanpan.value = true;
+  // setTimeout(()=>{
+  //   console.log(1);
+  // },100)
+  // router.push({
+  //   path: `/shortDramasDrawredenvelopes`,
+  //   query: {
+  //     orderNo: payParams.orderNo,
+  //     uuid: payParams.uuid,
+  //     channel_key: payParams.channel_key
+  //   }
+  // })
 }
 
 const goBackWatchdramaSmokeRedEnvelope = () => {
@@ -162,15 +198,20 @@ const goBackWatchdramaSmokeRedEnvelope = () => {
 }
 
 const goVideo = () => {
-  window.open(
-    'https://hwdj.liuyuekeji.cn/home?title=%E6%A3%AE%E8%BF%85%E5%89%A7%E5%9C%BA&parent_order_id=nRNZy',
-    '_self'
-  )
+  location.href = 'https://h5.zjchjc.cn/#/?app_id=bc123';
+  // router.push({
+  //   path: `/video`,
+  //   query: {
+  //     uuid: payParams.uuid,
+  //     channel_key: payParams.channel_key
+  //   }
+  // })
 }
 
 const handleCustomerService = () => {
   window.open(
-    'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    // 'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    'https://work.weixin.qq.com/kfid/kfc6182f27dc2fe4960',
     '_self'
   )
 }
@@ -196,9 +237,17 @@ window.addEventListener('scroll', () => {
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', windowScrollListener)
 })
+
 </script>
 
 <style lang="less" scoped>
+.zhuanpan{
+  background: rgba(0,0,0,.5);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
 .app-container {
   header {
     .top-chunk {
@@ -524,4 +573,5 @@ onBeforeUnmount(() => {
     }
   }
 }
+
 </style>

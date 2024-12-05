@@ -17,7 +17,7 @@
     </div>
     <div class="record-description-wrapper">
       <div class="record1">沈阳达信网络科技有限公司</div>
-      <div class="record2">客服电话：13650803912</div>
+      <div class="record2" />
       <div class="record3">辽ICP备2023010590号</div>
     </div>
     <!-- 弹窗 -->
@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { login } from '@/api/playlet'
+import { login,record } from '@/api/playlet'
 
 defineOptions({
   name: 'highestSmokeRedEnvelope'
@@ -75,6 +75,8 @@ defineOptions({
 const router = useRouter()
 const route = useRoute()
 const channelKey = route.query.channel_key
+const qcjParamStr = route.query.qcjParamStr?route.query.qcjParamStr:'';
+const a_old = route.query.a_old?route.query.a_old:'';
 const payParams = reactive({
   channel_key: '',
   channel_number: '',
@@ -82,7 +84,9 @@ const payParams = reactive({
 })
 
 console.log('route: ', route.query, channelKey, payParams)
-
+localStorage.setItem('qcjParamsStr',qcjParamStr);
+localStorage.setItem('a_old',a_old);
+console.log("a_old",a_old);
 const userLogin = async () => {
   try {
     const params = {
@@ -130,7 +134,8 @@ const handleOpenRedEnvelope = () => {
         path: `/watchdramaSmokeRedEnvelope`,
         query: {
           uuid: payParams.uuid,
-          channel_key: payParams.channel_key
+          channel_key: payParams.channel_key,
+          a_old:a_old
         }
       })
     }, 500)
@@ -154,12 +159,13 @@ const handleTimerGo = () => {
           path: `/watchdramaSmokeRedEnvelope`,
           query: {
             uuid: payParams.uuid,
-            channel_key: payParams.channel_key
+            channel_key: payParams.channel_key,
+            a_old:a_old
           }
         })
       }, 500)
     }
-  }, 3000)
+  }, 100)
 }
 
 watch(
@@ -288,3 +294,9 @@ watch(
   }
 }
 </style>
+<!-- 🇨🇳@微信@微信联系人 12-2 15:44:04
+app_id: bc1202216119
+app_secret: c82113602dc51e8d52aac4ad53f437be
+
+🇨🇳@微信@微信联系人 12-2 15:44:10
+licenseUrl: https://license.vod2.myqcloud.com/license/v2/1314161253_1/v_cube.license -->

@@ -42,11 +42,38 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/smokeRedEnvelope_check',
+    component: () => import('@/views/watchShortDramas/center.vue'),
+    name: 'watchShortDramas2',
+    meta: {
+      title: '看短剧领红包',
+      noCache: true
+    }
+  },
+  {
     path: '/shortDramasDrawredenvelopes',
     component: () => import('@/views/shortDramasDrawredenvelopes/index.vue'),
     name: 'shortDramasDrawredenvelopes',
     meta: {
       title: '短剧抽红包',
+      noCache: true
+    }
+  },
+  {
+    path: '/video',
+    component: () => import('@/views/video/index.vue'),
+    name: 'video',
+    meta: {
+      title: '看短剧',
+      noCache: true
+    }
+  },
+  {
+    path: '/chasing',
+    component: () => import('@/views/video/chasing.vue'),
+    name: 'chasing',
+    meta: {
+      title: '在追',
       noCache: true
     }
   }

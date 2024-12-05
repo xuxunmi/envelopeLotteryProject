@@ -48,9 +48,9 @@
       <div class="copyright-chunk">
         <div class="copyright-info">
           <p>版权信息</p>
-          <p>沈阳达信网络科技有限公司</p>
-          <p>客服电话：<span class="phone">13650803912</span></p>
-          <p>地址：辽宁省沈阳市沈北新区道义北大街59-1号C区412-A313</p>
+          <p>武汉云点点网络科技有限公司</p>
+          <p>客服电话:<span class="phone">13650803912</span></p>
+          <p>地址：武汉市洪山区书城路名士1号S-1商业第2层1号房</p>
           <p>辽ICP备2023010590号</p>
         </div>
       </div>
@@ -88,12 +88,14 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { record,alipay,check_alipay,login } from '@/api/playlet'
 import imgage1 from '@/assets/images/24012515281(2).webp'
 import imgage2 from '@/assets/images/24012515281(3).webp'
 import imgage3 from '@/assets/images/24012515281(4).webp'
 import imgage4 from '@/assets/images/24012515281(8).webp'
 import imgage5 from '@/assets/images/24012515281(10).webp'
 import { pay } from '@/api/playlet'
+import { showConfirmDialog   } from 'vant'
 
 defineOptions({
   name: 'watchdramaSmokeRedEnvelope'
@@ -106,11 +108,31 @@ const payParams = reactive(route.query)
 const paymentForm = ref<any>({})
 // 支付地址
 const paymentServerUrl = ref()
-
-console.log('route: ', route.query, payParams)
-
+const timer = ref()
+console.log('route: ',payParams)
+let channelKey = payParams.channel_key;
 const dialogVisible = ref(false)
-
+const a_oId = route.query.a_oId?route.query.a_oId:'';
+localStorage.setItem('a_old',a_oId);
+// const qcjParamStr = localStorage.getItem('qcjParamsStr');
+const qcjParamStr = payParams.qcjParamsStr;
+const userLogin = async () => {
+  try {
+    const params = {
+      channel_key: channelKey
+    }
+    const { data } = (await login(params)) as any
+    console.log('data: ', data)
+    Object.assign(payParams, data)
+    handleTimerGo()
+  } catch (error) {
+    console.log(error)
+  }
+}
+userLogin();
+console.log("payParams:",payParams);
+// localStorage.setItem('uuid',payParams.uuid);
+// localStorage.getItem('qcjParamsStr');
 const winnersInfoList = ref([
   {
     id: 1,
@@ -153,68 +175,163 @@ const winnersInfoList = ref([
     imgUrl: imgage5
   }
 ])
-
-const handleGetNowBtn = async () => {
-  console.log(' 立即领取 ')
+const userRecord = async () => {
   try {
-    const params = {
-      channel_key: payParams.channel_key,
-      uuid: payParams.uuid
-    }
-    const { data } = (await pay(params)) as any
+    const { data } = (await record(route.query)) as any
     console.log('data: ', data)
-    const paramsPay = data.params
-    const serverUrl = data.serverUrl
-
-    const div = document.createElement('formdiv')
-    div.innerHTML = `
-      <form name="formPay" action="${serverUrl}" method="post">
-        <input type="hidden" name="cusid" id="cusid" value="${paramsPay.cusid}" />
-        <input type="hidden" name="appid" id="appid" value="${paramsPay.appid}"/>
-        <input type="hidden" name="version" id="version" value="${paramsPay.version}" />
-        <input type="hidden" name="randomstr" id="randomstr" value="${paramsPay.randomstr}"/>
-        <input type="hidden" name="trxamt" id="trxamt" value="${paramsPay.trxamt}" />
-        <input type="hidden" name="reqsn" id="reqsn" value="${paramsPay.reqsn}"/>
-        <input type="hidden" name="charset" id="charset" value="${paramsPay.charset}" />
-        <input type="hidden" name="returl" id="returl" value="${paramsPay.returl}"/>
-        <input type="hidden" name="notify_url" id="notify_url" value="${paramsPay.notify_url}"/>
-        <input type="hidden" name="body" id="body" value="${paramsPay.body}" />
-        <input type="hidden" name="validtime" id="validtime" value="${paramsPay.validtime}"/>
-        <input type="hidden" name="signtype" id="signtype" value="${paramsPay.signtype}"/>
-        <input type="hidden" name="sign" id="sign" value="${paramsPay.signMsg}" />
-
-        <div class="weui-btn-area">
-          <input class="weui-btn weui-btn_default" type="submit" value="跳转至收银宝H5收银台 >>" />
-        </div>
-      </form>
-    `
-    document.body.appendChild(div)
-    document.forms['formPay'].setAttribute('target', '_self')
-    document.forms['formPay'].submit()
-    div.remove()
-
-    // Object.assign(paymentForm.value, data.params);
-    // paymentServerUrl.value = data.serverUrl;
-    // console.log("paymentForm.value: ", paymentForm.value);
-    // console.log("paymentServerUrl: ", paymentServerUrl.value);
-    // console.dir(document.getElementById("paymentForm"));
-    // const paymentFormElement = document.getElementById(
-    //   "paymentForm"
-    // ) as HTMLFormElement;
-    // 唤起支付
-    // paymentFormElement.submit();
-    // router.push({
-    //   path: `/WatchShortDramas`,
-    //   query: {}
-    // });
   } catch (error) {
     console.log(error)
   }
 }
 
+userRecord()
+const isWeiXin = ()=> {
+  var ua = navigator.userAgent.toLowerCase()
+  if (ua.indexOf('micromessenger') != -1) {
+    return true
+  } else {
+    return false
+  }
+}
+const handleGetNowBtn = async () => {
+    try {
+      const params = {
+        channel_key: payParams.channel_key,
+        uuid: payParams.uuid,
+        qcjParamStr:qcjParamStr,
+        a_oId:a_oId
+      }
+      if(isWeiXin() == true){
+      
+      const { data } = (await pay(params)) as any
+      console.log('data: ', data)
+      const paramsPay = data.params
+      const serverUrl = data.serverUrl
+
+      const div = document.createElement('formdiv')
+      div.innerHTML = `
+        <form name="formPay" action="${serverUrl}" method="post">
+          <input type="hidden" name="cusid" id="cusid" value="${paramsPay.cusid}" />
+          <input type="hidden" name="appid" id="appid" value="${paramsPay.appid}"/>
+          <input type="hidden" name="version" id="version" value="${paramsPay.version}" />
+          <input type="hidden" name="randomstr" id="randomstr" value="${paramsPay.randomstr}"/>
+          <input type="hidden" name="trxamt" id="trxamt" value="${paramsPay.trxamt}" />
+          <input type="hidden" name="reqsn" id="reqsn" value="${paramsPay.reqsn}"/>
+          <input type="hidden" name="charset" id="charset" value="${paramsPay.charset}" />
+          <input type="hidden" name="returl" id="returl" value="${paramsPay.returl}"/>
+          <input type="hidden" name="notify_url" id="notify_url" value="${paramsPay.notify_url}"/>
+          <input type="hidden" name="body" id="body" value="${paramsPay.body}" />
+          <input type="hidden" name="validtime" id="validtime" value="${paramsPay.validtime}"/>
+          <input type="hidden" name="signtype" id="signtype" value="${paramsPay.signtype}"/>
+          <input type="hidden" name="sign" id="sign" value="${paramsPay.signMsg}" />
+
+          <div class="weui-btn-area">
+            <input class="weui-btn weui-btn_default" type="submit" value="跳转至收银宝H5收银台 >>" />
+          </div>
+        </form>
+      `
+      document.body.appendChild(div)
+      document.forms['formPay'].setAttribute('target', '_self')
+      document.forms['formPay'].submit()
+      div.remove()
+    }else{
+      const { data } = (await alipay(params)) as any
+      window.open(data.url);
+      // let  data2
+      let i = 1;
+      let checkpay = ()=>{
+        let payinterval = setInterval(()=>{
+        i = i+1;
+        if(i >= 110){
+          console.log(i);
+          clearInterval(payinterval);
+          showConfirmDialog({
+            title: '提示', 
+            message: '是否已完成支付？', 
+            confirmButtonText: '未支付', // 自定义确认按钮文案
+            cancelButtonText: '已支付', // 自定义取消按钮文案
+            }) .then(() => { 
+              handleGetNowBtn();
+            }).catch(() => { 
+              i=1;
+              checkpay();
+            })
+        }
+        check_alipay({'order_sn':data.order_sn,'uuid':payParams.uuid}).then((data2)=>{
+          console.log('data2: ', data2)
+          if(data2.code == 1){
+            clearInterval(payinterval);
+            router.push({
+              path: `/smokeRedEnvelope_res`,
+              query: {
+                uuid: data2.data.uuid,
+                channel_key: data.channel_key,
+                order_sn: data2.data.order_sn,
+                a_oId: a_oId,
+              }
+            })
+            // showConfirmDialog({
+            //   title: '提示', 
+            //   message: '已完成支付', 
+            //   confirmButtonText: '去抽奖', // 自定义确认按钮文案
+            //   cancelButtonText: '确定', // 自定义取消按钮文案
+            //   }) .then(() => { 
+            //     router.push({
+            //       path: `/smokeRedEnvelope_res`,
+            //       query: {
+            //         uuid: data2.data.uuid,
+            //         channel_key: data.channel_key,
+            //         order_sn: data2.data.order_sn,
+            //       }
+            //     })
+            //   }) .catch(() => { 
+            //     router.push({
+            //       path: `/smokeRedEnvelope_res`,
+            //       query: {
+            //         uuid: data2.data.uuid,
+            //         channel_key: data.channel_key,
+            //         order_sn: data2.data.order_sn,
+            //       }
+            //     })
+            
+            // })
+          }
+        })
+        },500)
+      }
+      setTimeout(() => {
+        checkpay();
+      }, 2000);
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+const handleTimerGo = () => {
+  // 延时处理
+  if (timer.value) clearTimeout(timer.value)
+  timer.value = setTimeout(() => {
+    const fingerClickElment = document.querySelector('.finger-click') as HTMLElement
+    console.dir(fingerClickElment)
+    if (fingerClickElment) {
+      fingerClickElment.style.transform = 'rotate(-15deg)'
+      fingerClickElment.style.transition = 'transform 0.3s linear'
+      setTimeout(() => {
+        router.push({
+          path: `/watchdramaSmokeRedEnvelope`,
+          query: {
+            uuid: payParams.uuid,
+            channel_key: payParams.channel_key
+          }
+        })
+      }, 500)
+    }
+  }, 100)
+}
 const handleCustomerService = () => {
   window.open(
-    'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    // 'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    'https://work.weixin.qq.com/kfid/kfc6182f27dc2fe4960',
     '_self'
   )
 }
@@ -320,10 +437,10 @@ const handleCustomerService = () => {
       color: #fff;
       font-size: 9px;
       text-align: center;
-      .copyright-info {
-        .phone {
-          letter-spacing: 1px;
-        }
+        .copyright-info {
+          .phone {
+            letter-spacing: 1px;
+          }
       }
     }
   }

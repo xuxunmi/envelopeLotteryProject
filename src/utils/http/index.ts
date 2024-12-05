@@ -76,7 +76,7 @@ class Http {
           }
           return Promise.reject(res)
         } else {
-          return res
+          return res;
         }
       },
       (error: AxiosError) => {

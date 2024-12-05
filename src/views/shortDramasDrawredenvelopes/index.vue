@@ -117,7 +117,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -125,7 +124,11 @@ import { useRouter, useRoute } from 'vue-router'
 defineOptions({
   name: 'shortDramasDrawredenvelopes'
 })
-
+// var hi = document.createElement('script');
+// hi.src="https://dsp-cdn.19ego.cn/third/qcj@v0.2.7/qcj.js";
+// hi.charset = 'UTF-8';
+// var k = document.getElementsByTagName("script")[0];
+// k.parentNode.insertBefore(hi,k);
 const router = useRouter()
 const route = useRoute()
 const payParams = reactive(route.query)
@@ -151,13 +154,15 @@ const goBackWatchdramaSmokeRedEnvelope = () => {
 const goVideo = () => {
   window.open(
     'https://hwdj.liuyuekeji.cn/home?title=%E6%A3%AE%E8%BF%85%E5%89%A7%E5%9C%BA&parent_order_id=nRNZy',
+    
     '_self'
   )
 }
 
 const handleCustomerService = () => {
   window.open(
-    'https://hwpage.liuyuekeji.cn/complaint/mvzZ3?from=tajqdjhbl07&addType=15&a_cid=&a_oId=&a_tuiaId=&device=&a_deviceId=&imeiMd5=&idfaMd5=&oaidMd5=',
+    'https://work.weixin.qq.com/kfid/kfc6182f27dc2fe4960',
+    // 'https://work.weixin.qq.com/kfid/kfc6182f27dc2fe4960',
     '_self'
   )
 }
