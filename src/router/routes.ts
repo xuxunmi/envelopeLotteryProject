@@ -76,6 +76,24 @@ const routes: Array<RouteRecordRaw> = [
       title: '在追',
       noCache: true
     }
+  },
+  {
+    path: '/monthlyCollarActivity',
+    component: () => import('@/views/monthlyCollarActivity/index.vue'),
+    name: 'monthlyCollarActivity',
+    meta: {
+      title: '话费月月领会员活动',
+      noCache: true
+    },
+  },
+  {
+    path: '/monthlyCollarActivity/report',
+    component: () => import('@/views/monthlyCollarActivity/report.vue'),
+    name: 'monthlyCollarActivityReport',
+    meta: {
+      title: '投诉举报',
+      noCache: true
+    }
   }
 ]
 
