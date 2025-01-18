@@ -84,7 +84,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '话费月月领会员活动',
       noCache: true
-    },
+    }
   },
   {
     path: '/monthlyCollarActivity/report',

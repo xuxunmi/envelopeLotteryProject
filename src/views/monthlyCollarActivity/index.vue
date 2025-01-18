@@ -13,15 +13,15 @@
       <div class="main-content">
         <ul class="cont-top-img">
           <li class="item item1">
-            <div class="negative negative1"></div>
+            <div class="negative negative1" />
             <img src="@/assets/images/monthlyCollarActivity/zgyd.webp" alt="" />
           </li>
           <li class="item item2">
-            <div class="negative negative2"></div>
+            <div class="negative negative2" />
             <img src="@/assets/images/monthlyCollarActivity/zgdx.webp" alt="" />
           </li>
           <li class="item item3">
-            <div class="negative negative3"></div>
+            <div class="negative negative3" />
             <img src="@/assets/images/monthlyCollarActivity/zglt.webp" alt="" />
           </li>
         </ul>
@@ -43,7 +43,7 @@
           </div>
           <div class="billsty-month">
             <ul class="month-list">
-              <li class="month-item" v-for="item in monthList" :key="item.id" @click="handleMonthClick(item)">
+              <li v-for="item in monthList" :key="item.id" class="month-item" @click="handleMonthClick(item)">
                 <div :class="item.isCompleted ? 'item-selected' : 'item'">
                   {{ item.isCompleted ? item.complete : item.month }}
                 </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="videoSty-container">
           <ul class="videoSty-list">
-            <li class="videoSty-item" v-for="item in videoStyList" :key="item.id">
+            <li v-for="item in videoStyList" :key="item.id" class="videoSty-item">
               <img class="videoSty-img" :src="item.imgUrl" alt="" />
               <div class="videoSty-name">{{ item.name }}</div>
               <div class="videoSty-jj">{{ item.jj }}</div>
@@ -239,7 +239,7 @@ const formData = reactive({
 const userLogin = async () => {
   try {
     const params = {
-      channel_key: channelKey
+      channel_key: ''
     }
     const { data } = (await login(params)) as any
     console.log('data: ', data)
