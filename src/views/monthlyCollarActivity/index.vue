@@ -2,7 +2,14 @@
   <div class="app-container">
     <div class="monthly-collar-activity">
       <div class="head-wrapper">
-        <van-swipe style="height: 170px" :show-indicators="false" :touchable="true" :loop="true">
+        <van-swipe
+          style="height: 170px"
+          :autoplay="1000"
+          :show-indicators="false"
+          :touchable="true"
+          :loop="true"
+          lazy-render
+        >
           <van-swipe-item v-for="item in carouselList" :key="item.id">
             <div class="flex justify-between items-center h-full">
               <img style="width: 100%; height: 100%" :src="item.imgUrl" alt="" />
@@ -54,7 +61,7 @@
           <div class="billsty-money">
             <div class="money-top">20元</div>
           </div>
-          <div class="billsty-btn">立即领取</div>
+          <div class="billsty-btn" @click="handleReceiveBtn">立即领取</div>
         </div>
         <div class="videoSty-container">
           <ul class="videoSty-list">
@@ -218,7 +225,7 @@ const videoStyList = ref([
   },
   {
     id: 4,
-    imgUrl: imgage5,
+    imgUrl: imgage7,
     name: '爱奇艺黄金会员1个月',
     jj: '热播聚集实时观看',
     price1: '19.20',
@@ -268,6 +275,11 @@ const handleMonthClick = (item: any) => {
   })
 }
 
+// 处理立即领取
+const handleReceiveBtn = () => {
+  console.log('立即领取')
+}
+
 // 处理投诉举报
 const handleReport = () => {
   router.push({
@@ -286,6 +298,7 @@ const handleReport = () => {
     position: relative;
     width: 100%;
     height: 100vh;
+    margin: 0 auto;
     .head-wrapper {
       height: 190px;
       margin: 0 auto;
