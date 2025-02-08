@@ -109,14 +109,14 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
       // 自定义代理规则
       proxy: {
         '/api': {
-          target: 'http://api.sydaxin.top',
+          target: 'https://api.sydaxin.top',
           ws: true,
           // 跨域
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
         },
         '/pay': {
-          target: 'http://pay.sjdxkj.top',
+          target: 'https://pay.sjdxkj.top',
           ws: true,
           // 跨域
           changeOrigin: true,
