@@ -9,7 +9,7 @@
         <span class="icon-chunk">¥</span>888
         <div class="price-chunk">
           <div class="text">·解锁·</div>
-          <div class="price">99.90元</div>
+          <div class="price">{{ prices }}元</div>
         </div>
       </div>
       <div class="payment-chunk">
@@ -39,6 +39,7 @@
           </van-swipe>
         </div>
         <div class="button-chunk animation_scaling" @click="handleGetNowBtn">立即领取</div>
+        <p style="text-align: center;margin-top: 20px;">点击按钮将跳转支付宝/微信进行支付</p>
         <div class="payment-select-chunk">
           <div class="paySelect-component">
             <div class="adm-space adm-space-vertical" />
@@ -46,13 +47,13 @@
         </div>
       </div>
       <div class="copyright-chunk">
-        <div class="copyright-info">
+        <div class="copyright-info" style="opacity: 1;font-size: 18px;">
           <p>版权信息</p>
-          <p>武汉云点点网络科技有限公司</p>
+          <p>北京众创云梦信息技术有限公司</p>
           <p>客服电话:<span class="phone">13650803912</span></p>
-          <p>地址：武汉市洪山区书城路名士1号S-1商业第2层1号房</p>
-          <p>辽ICP备2023010590号</p>
-        </div>
+          <!-- <p>地址：武汉市洪山区书城路名士1号S-1商业第2层1号房</p>
+          <p>辽ICP备2023010590号</p> -->
+        </div> 
       </div>
     </div>
     <div class="right-fixed-chunk-1" @click="dialogVisible = true">
@@ -68,10 +69,10 @@
           <h1>活动规则</h1>
           <p>一、活动时间:即日起至 2024 年12月 31 日:</p>
           <p>二、具体规则</p>
-          <p>1、用户付费购买短剧后，可在结果页（继续看剧入口）观看 10 集短剧；</p>
+          <p>1、用户付费购买短剧后，可在结果页（继续看剧入口）观看海量免费短剧，短剧网站https://bao.sydaxin.top/video；</p>
           <p>2、用户付费购买短剧后，限时赠送幸运大转盘机会一次，用户自主选择是否参加；</p>
           <p>
-            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至 2888 元不等的现金红包，中奖概率 1/99999;
+            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至 888 元不等的现金红包，中奖概率 1/99999;
             惊喜二： 20 元以内拼多多购物抵扣券一张，中奖概率 99998/99999；
           </p>
           <p>4、用户在幸运大转盘获得奖品后，请勿退出活动，退出可能导致奖品丢失，请在获得奖品后及时兑换或领取；</p>
@@ -83,6 +84,12 @@
       </div>
     </van-dialog>
   </div>
+<div class="showdailage" v-if="showwanliu">
+  <div class="bg" @click="goPay">
+    <p class="shutcounter">剩余时间：{{ formattedTimer }}</p>
+    <span class="prices">{{parseFloat(prices)-10}}元</span>
+  </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -94,9 +101,17 @@ import imgage2 from '@/assets/images/24012515281(3).webp'
 import imgage3 from '@/assets/images/24012515281(4).webp'
 import imgage4 from '@/assets/images/24012515281(8).webp'
 import imgage5 from '@/assets/images/24012515281(10).webp'
+import image6 from '@/assets/images/RnXokLE2NG.png'
 import { pay } from '@/api/playlet'
 import { showConfirmDialog   } from 'vant'
-
+let counter = localStorage.getItem('counter');
+if(!counter){
+  counter = 1;
+  localStorage.setItem('counter',1);
+}else{
+  counter = 2;
+}
+console.log('counter',counter);
 defineOptions({
   name: 'watchdramaSmokeRedEnvelope'
 })
@@ -109,13 +124,14 @@ const paymentForm = ref<any>({})
 // 支付地址
 const paymentServerUrl = ref()
 const timer = ref()
+const showwanliu = ref(false)
 console.log('route: ',payParams)
 let channelKey = payParams.channel_key;
 const dialogVisible = ref(false)
 const a_oId = route.query.a_oId?route.query.a_oId:'';
 localStorage.setItem('a_old',a_oId);
 // const qcjParamStr = localStorage.getItem('qcjParamsStr');
-const qcjParamStr = payParams.qcjParamsStr;
+const qcjParamStr = payParams.qcjParamStr;
 const userLogin = async () => {
   try {
     const params = {
@@ -124,10 +140,11 @@ const userLogin = async () => {
     const { data } = (await login(params)) as any
     console.log('data: ', data)
     Object.assign(payParams, data)
+    prices.value = payParams.prices;
     handleTimerGo()
   } catch (error) {
     console.log(error)
-  }
+  } 
 }
 userLogin();
 console.log("payParams:",payParams);
@@ -137,54 +154,127 @@ const winnersInfoList = ref([
   {
     id: 1,
     name: '蒋**',
-    money: '288',
-    desc1: '看短剧抽中了',
-    desc2: '元红包',
+    money: '抽红包福利',
+    desc1: '已经领取看短剧',
+    desc2: '',
     imgUrl: imgage1
   },
   {
     id: 2,
     name: '林**',
-    money: '288',
-    desc1: '看短剧抽中了',
-    desc2: '元红包',
+    money: '抽红包福利',
+    desc1: '已经领取看短剧',
+    desc2: '',
     imgUrl: imgage2
   },
   {
     id: 3,
     name: '张**',
-    money: '88',
-    desc1: '看短剧抽中了',
-    desc2: '元红包',
+    money: '抽红包福利',
+    desc1: '已经领取看短剧',
+    desc2: '',
     imgUrl: imgage3
   },
   {
     id: 4,
     name: '徐**',
-    money: '888',
-    desc1: '看短剧抽中了',
-    desc2: '元红包',
+    money: '抽红包福利',
+    desc1: '已经领取看短剧',
+    desc2: '',
     imgUrl: imgage4
   },
-  {
-    id: 5,
-    name: '陈**',
-    money: '78',
-    desc1: '看短剧抽中了',
-    desc2: '元红包',
-    imgUrl: imgage5
-  }
+  // {
+  //   id: 2,
+  //   name: '林**',
+  //   money: '288',
+  //   desc1: '看短剧抽中了',
+  //   desc2: '元红包',
+  //   imgUrl: imgage2
+  // },
+  // {
+  //   id: 3,
+  //   name: '张**',
+  //   money: '88',
+  //   desc1: '看短剧抽中了',
+  //   desc2: '元红包',
+  //   imgUrl: imgage3
+  // },
+  // {
+  //   id: 4,
+  //   name: '徐**',
+  //   money: '88',
+  //   desc1: '看短剧抽中了',
+  //   desc2: '元红包',
+  //   imgUrl: imgage4
+  // },
+  // {
+  //   id: 5,
+  //   name: '陈**',
+  //   money: '78',
+  //   desc1: '看短剧抽中了',
+  //   desc2: '元红包',
+  //   imgUrl: imgage5
+  // }
 ])
+const totalTime = ref(900000);
+const formattedTimer = ref('');
+const prices = ref();
+console.log(prices.value);
+const data2 = ref({
+  totalTime:3600000, // 示例总时间（1小时30分15秒500毫秒）
+  intervalId:null,
+  formattedTimer:'',
+})
+console.log('totalTime',totalTime);
+const formattedTime = (times)=> {
+    const totalMilliseconds = times;
+    const hours = Math.floor(totalMilliseconds / (1000 * 60 * 60));
+    const minutes = Math.floor((totalMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((totalMilliseconds % (1000 * 60)) / 1000);
+    const milliseconds = totalMilliseconds % 1000;
+
+    return `${padZero(minutes)}:${padZero(seconds)}.${padZero(milliseconds, 3)}`;
+  }
+const padZero = (num, length = 2)=> {
+      return num.toString().padStart(length, '0');
+    }
+const startCountdown = ()=> {
+  data2.intervalId = setInterval(() => {
+    if (totalTime.value <= 0) {
+      clearInterval(data2.intervalId);
+    } else {
+      totalTime.value -= 5;
+      formattedTimer.value = formattedTime(totalTime.value);
+    }
+  }, 1);
+}
+const goPay = ()=>{
+  handleGetNowBtn(1)
+}
+// setTimeout(() => {
+//   prices.value = payParams.prices;
+//   showwanliu.value = true;
+//   startCountdown();
+// }, 10000);
+
 const userRecord = async () => {
   try {
-    const { data } = (await record(route.query)) as any
+    let params2 = {
+        channel_key: payParams.channel_key,
+        uuid: payParams.uuid,
+        qcjParamStr:qcjParamStr,
+        a_oId:a_oId
+      }
+    const { data } = (await record(params2)) as any
     console.log('data: ', data)
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 }
+setTimeout(() => {
+  userRecord()
+}, 1000);
 
-userRecord()
 const isWeiXin = ()=> {
   var ua = navigator.userAgent.toLowerCase()
   if (ua.indexOf('micromessenger') != -1) {
@@ -193,13 +283,14 @@ const isWeiXin = ()=> {
     return false
   }
 }
-const handleGetNowBtn = async () => {
+const handleGetNowBtn = async (jianmian=0) => {
     try {
       const params = {
         channel_key: payParams.channel_key,
         uuid: payParams.uuid,
         qcjParamStr:qcjParamStr,
-        a_oId:a_oId
+        a_oId:a_oId,
+        jianmian:jianmian
       }
       if(isWeiXin() == true){
       
@@ -242,7 +333,7 @@ const handleGetNowBtn = async () => {
       let checkpay = ()=>{
         let payinterval = setInterval(()=>{
         i = i+1;
-        if(i >= 110){
+        if(i >= 10){
           console.log(i);
           clearInterval(payinterval);
           showConfirmDialog({
@@ -251,13 +342,14 @@ const handleGetNowBtn = async () => {
             confirmButtonText: '未支付', // 自定义确认按钮文案
             cancelButtonText: '已支付', // 自定义取消按钮文案
             }) .then(() => { 
-              handleGetNowBtn();
+              // handleGetNowBtn();
             }).catch(() => { 
               i=1;
               checkpay();
             })
         }
-        check_alipay({'order_sn':data.order_sn,'uuid':payParams.uuid}).then((data2)=>{
+        check_alipay({'order_sn':data.order_sn,'uuid':payParams.uuid,
+        qcjParamStr:qcjParamStr}).then((data2)=>{
           console.log('data2: ', data2)
           if(data2.code == 1){
             clearInterval(payinterval);
@@ -297,7 +389,7 @@ const handleGetNowBtn = async () => {
             // })
           }
         })
-        },500)
+        },1000)
       }
       setTimeout(() => {
         checkpay();
@@ -338,6 +430,39 @@ const handleCustomerService = () => {
 </script>
 
 <style lang="less" scoped>
+.showdailage{
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0,.2);
+  img{
+    margin-top: 50%;
+  }
+  .bg{
+    width: 100%;
+    height: 800px;
+    background: url(./src/assets/images/RnXokLE2NG.png) no-repeat;
+    background-size: 120%;
+    background-position: 50% 30%;
+    position: relative;
+  }
+  .prices{
+    color:#fff;
+    font-size: 40px;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+  }
+  .shutcounter{
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    font-size: 6.4vw;
+    color: #ff5543;
+    font-weight: 700;
+  }
+}
 .app-container {
   .bg-chunk {
     width: 100%;

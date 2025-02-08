@@ -105,10 +105,10 @@
           <h1>活动规则</h1>
           <p>一、活动时间:即日起至 2024 年12月 31 日:</p>
           <p>二、具体规则</p>
-          <p>1、用户付费购买短剧后，可在结果页（继续看剧入口）观看 10 集短剧；</p>
+          <p>1、用户付费购买短剧后，可在结果页（继续看剧入口）观看海量免费短剧，短剧网站https://bao.sydaxin.top/video；</p>
           <p>2、用户付费购买短剧后，限时赠送幸运大转盘机会一次，用户自主选择是否参加；</p>
           <p>
-            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至 2888 元不等的现金红包，中奖概率 1/99999;
+            3、参加幸运大转盘活动的用户，有机会获得以下惊喜： 惊喜一：88 元至 888 元不等的现金红包，中奖概率 1/99999;
             惊喜二： 20 元以内拼多多购物抵扣券一张，中奖概率 99998/99999；
           </p>
           <p>4、用户在幸运大转盘获得奖品后，请勿退出活动，退出可能导致奖品丢失，请在获得奖品后及时兑换或领取；</p>
@@ -155,22 +155,22 @@ if(channel_key.length > 1){
   const a_oId = payParams.a_oId;
 // }
 console.log("a_oId",a_oId);
-const lettuia = async () => {
-  try {
-    let formData = new FormData();
-    formData.append('clickId',a_oId);
-    formData.append('channel',2);
-    // const params = {
-    //   clickId: a_old,
-    //   channel:2
-    // }
-    const { data } = (await tuia(formData)) as any
-    console.log('data: ', data)
-  } catch (error) {
-    console.log(error)
-  }
-}
-lettuia();
+// const lettuia = async () => {
+//   try {
+//     let formData = new FormData();
+//     formData.append('clickId',a_oId);
+//     formData.append('channel',2);
+//     // const params = {
+//     //   clickId: a_old,
+//     //   channel:2
+//     // }
+//     const { data } = (await tuia(formData)) as any
+//     console.log('data: ', data)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+// lettuia();
 // console.log(channel_key);
 const goShortDramasDrawredenvelopes = () => {
   showZhuanpan.value = true;
@@ -198,14 +198,14 @@ const goBackWatchdramaSmokeRedEnvelope = () => {
 }
 
 const goVideo = () => {
-  location.href = 'https://h5.zjchjc.cn/#/?app_id=bc123';
-  // router.push({
-  //   path: `/video`,
-  //   query: {
-  //     uuid: payParams.uuid,
-  //     channel_key: payParams.channel_key
-  //   }
-  // })
+  // location.href = 'https://h5.zjchjc.cn/#/?app_id=bc123';
+  router.push({
+    path: `/video`,
+    query: {
+      uuid: payParams.uuid,
+      channel_key: payParams.channel_key
+    }
+  })
 }
 
 const handleCustomerService = () => {
